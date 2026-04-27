@@ -64,20 +64,26 @@ func alive_structures() -> Array[DestructibleStructure]:
 
 func _on_titan_defeated(unit: CombatActor) -> void:
 	SignalBus.unit_defeated.emit(unit.actor_id, unit.team, unit.global_position)
+	if unit is TitanUnit:
+		titans.erase(unit)
 
 func _on_defender_defeated(unit: CombatActor) -> void:
 	if unit.drop_table != null:
 		EconomyService.grant(unit.drop_table.roll_drops(), unit.global_position)
 	if unit is DefenderUnit and unit.defender_type != null and unit.defender_type.is_hero:
-		GameState.add_currency(&"hero_heart", 1.0, unit.global_position)
-		GameState.mark_hero_defeated(unit.defender_type.id)
+		if not GameState.defeated_heroes.has(unit.defender_type.id):
+			GameState.mark_hero_defeated(unit.defender_type.id)
 	SignalBus.unit_defeated.emit(unit.actor_id, unit.team, unit.global_position)
+	if unit is DefenderUnit:
+		defenders.erase(unit)
 
 func _on_repair_worker_defeated(unit: CombatActor) -> void:
 	SignalBus.unit_defeated.emit(unit.actor_id, unit.team, unit.global_position)
+	if unit is RepairWorker:
+		repair_workers.erase(unit)
 
-func _on_structure_destroyed(_structure: DestructibleStructure) -> void:
-	pass
+func _on_structure_destroyed(structure: DestructibleStructure) -> void:
+	structures.erase(structure)
 
 func _is_alive_actor(unit: CombatActor) -> bool:
 	return is_instance_valid(unit) and unit.damageable != null and not unit.damageable.dead
