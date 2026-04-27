@@ -1,0 +1,64 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://world/city/city_scene.gd" id="1_city"]
+[ext_resource type="PackedScene" path="res://structures/destructible/destructible_structure.tscn" id="2_structure"]
+[ext_resource type="Script" path="res://content/catalogs/content_catalog.gd" id="3_catalog"]
+[ext_resource type="Script" path="res://systems/combat/battle_registry.gd" id="4_registry"]
+[ext_resource type="Script" path="res://systems/combat/combat_resolver.gd" id="5_resolver"]
+[ext_resource type="Script" path="res://systems/spawning/titan_spawn_coordinator.gd" id="6_titan_spawn"]
+[ext_resource type="PackedScene" path="res://actors/titan/titan_unit.tscn" id="7_titan"]
+[ext_resource type="Script" path="res://systems/spawning/defender_spawn_coordinator.gd" id="8_defender_spawn"]
+[ext_resource type="PackedScene" path="res://actors/defender/defender_unit.tscn" id="9_defender"]
+[ext_resource type="Script" path="res://systems/repair/repair_coordinator.gd" id="10_repair"]
+[ext_resource type="PackedScene" path="res://actors/repair_worker/repair_worker.tscn" id="11_worker"]
+[ext_resource type="Script" path="res://systems/camera/horizontal_camera_controller.gd" id="12_camera"]
+[ext_resource type="PackedScene" path="res://ui/debug/debug_hud.tscn" id="13_hud"]
+
+[node name="CityScene" type="Node2D"]
+script = ExtResource("1_city")
+destructible_scene = ExtResource("2_structure")
+
+[node name="ContentCatalog" type="Node" parent="."]
+script = ExtResource("3_catalog")
+
+[node name="BattleRegistry" type="Node" parent="."]
+script = ExtResource("4_registry")
+
+[node name="CombatResolver" type="Node" parent="."]
+script = ExtResource("5_resolver")
+registry_path = NodePath("../BattleRegistry")
+
+[node name="Structures" type="Node2D" parent="."]
+
+[node name="TitanSpawnCoordinator" type="Node" parent="."]
+script = ExtResource("6_titan_spawn")
+registry_path = NodePath("../BattleRegistry")
+catalog_path = NodePath("../ContentCatalog")
+titan_scene = ExtResource("7_titan")
+spawn_origin = Vector2(80, 420)
+target_x = 2200.0
+
+[node name="DefenderSpawnCoordinator" type="Node" parent="."]
+script = ExtResource("8_defender_spawn")
+registry_path = NodePath("../BattleRegistry")
+catalog_path = NodePath("../ContentCatalog")
+defender_scene = ExtResource("9_defender")
+spawn_origin = Vector2(1960, 430)
+max_alive = 8
+spawn_cooldown = 3.0
+
+[node name="RepairCoordinator" type="Node" parent="."]
+script = ExtResource("10_repair")
+registry_path = NodePath("../BattleRegistry")
+repair_worker_scene = ExtResource("11_worker")
+spawn_origin = Vector2(1980, 430)
+max_workers = 3
+cooldown = 8.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+script = ExtResource("12_camera")
+min_x = 640.0
+max_x = 1900.0
+
+[node name="DebugHud" parent="." instance=ExtResource("13_hud")]
