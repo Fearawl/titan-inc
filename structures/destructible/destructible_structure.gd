@@ -4,6 +4,7 @@ class_name DestructibleStructure
 signal destroyed(structure: DestructibleStructure)
 
 var structure_type: StructureTypeResource
+var suppress_state_write := false
 
 @onready var damageable: Damageable = $Damageable
 @onready var body: ColorRect = $Body
@@ -19,12 +20,19 @@ func configure_structure(type: StructureTypeResource) -> void:
 	structure_type = type
 	global_position = type.position
 	_ensure_nodes()
+	visible = true
+	collision_layer = 1
+	collision_mask = 1
 	body.size = type.size
 	body.position = -type.size * 0.5
+	suppress_state_write = true
 	damageable.configure(type.max_hp)
 	var game_state: Variant = _game_state()
 	if game_state != null and game_state.structure_hp.has(type.id):
 		damageable.set_current_hp(float(game_state.structure_hp[type.id]))
+	if damageable.current_hp <= 0.0:
+		_apply_destroyed_state()
+	suppress_state_write = false
 	_on_hp_changed(damageable.current_hp, damageable.max_hp)
 
 func apply_damage(amount: float, source_id: StringName = &"") -> void:
@@ -43,13 +51,11 @@ func _on_hp_changed(current_hp: float, new_max_hp: float) -> void:
 		hp_bar.max_value = new_max_hp
 		hp_bar.value = current_hp
 	var game_state: Variant = _game_state()
-	if structure_type != null and game_state != null:
+	if not suppress_state_write and structure_type != null and game_state != null:
 		game_state.structure_hp[structure_type.id] = current_hp
 
 func _on_died(_source_id: StringName) -> void:
-	visible = false
-	collision_layer = 0
-	collision_mask = 0
+	_apply_destroyed_state()
 	var game_state: Variant = _game_state()
 	if structure_type != null:
 		if game_state != null:
@@ -62,6 +68,11 @@ func _on_died(_source_id: StringName) -> void:
 		if signal_bus != null:
 			signal_bus.structure_destroyed.emit(structure_type.id, global_position)
 	destroyed.emit(self)
+
+func _apply_destroyed_state() -> void:
+	visible = false
+	collision_layer = 0
+	collision_mask = 0
 
 func _ensure_nodes() -> void:
 	if damageable == null:

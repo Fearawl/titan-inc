@@ -30,8 +30,9 @@ func repair(amount: float) -> void:
 	hp_changed.emit(current_hp, max_hp)
 
 func set_current_hp(value: float, emit_death := false) -> void:
+	var was_dead := dead
 	current_hp = clampf(value, 0.0, max_hp)
 	dead = current_hp <= 0.0
 	hp_changed.emit(current_hp, max_hp)
-	if dead and emit_death:
+	if dead and not was_dead and emit_death:
 		died.emit(&"save_state")
