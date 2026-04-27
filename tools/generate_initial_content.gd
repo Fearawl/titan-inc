@@ -6,23 +6,43 @@ const DefenderTypeResourceScript := preload("res://content/defenders/defender_ty
 const StructureTypeResourceScript := preload("res://content/structures/structure_type_resource.gd")
 const ZoneResourceScript := preload("res://content/zones/zone_resource.gd")
 
+var _failure_count := 0
+
 func _init() -> void:
-	_ensure_directories()
+	if not _prepare_output_directories():
+		_finish()
+		return
 	_save_titans()
 	_save_defenders()
 	_save_structures()
 	_save_zones()
-	print("Initial Titan Inc content generated.")
-	quit()
+	_finish()
 
-func _ensure_directories() -> void:
+func _prepare_output_directories() -> bool:
 	for path in [
 		"res://content/titans",
 		"res://content/defenders",
 		"res://content/structures",
 		"res://content/zones",
 	]:
-		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(path))
+		var err := DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(path))
+		if err != OK:
+			_record_failure("Cannot create directory %s: %s" % [path, err])
+			continue
+		_clean_tres_files(path)
+	return _failure_count == 0
+
+func _clean_tres_files(path: String) -> void:
+	var dir := DirAccess.open(path)
+	if dir == null:
+		_record_failure("Cannot open directory %s for cleanup" % path)
+		return
+	for file_name in dir.get_files():
+		if not file_name.ends_with(".tres"):
+			continue
+		var err := dir.remove(file_name)
+		if err != OK:
+			_record_failure("Cannot remove stale resource %s: %s" % [path.path_join(file_name), err])
 
 func _stats(hp: float, damage: float, rate: float, speed: float, radius: float, range_value := 0.0) -> UnitStatsResource:
 	var stats := UnitStatsResource.new()
@@ -67,14 +87,28 @@ func _zone_structures(paths: Array[String]) -> Array[StructureTypeResource]:
 	var result: Array[StructureTypeResource] = []
 	for path in paths:
 		var structure := load(path) as StructureTypeResource
-		if structure != null:
-			result.append(structure)
+		if structure == null:
+			_record_failure("Cannot load structure resource %s" % path)
+			continue
+		result.append(structure)
 	return result
 
 func _save(path: String, resource: Resource) -> void:
 	var err := ResourceSaver.save(resource, path)
 	if err != OK:
-		push_error("Cannot save resource %s: %s" % [path, err])
+		_record_failure("Cannot save resource %s: %s" % [path, err])
+
+func _record_failure(message: String) -> void:
+	_failure_count += 1
+	push_error(message)
+
+func _finish() -> void:
+	if _failure_count == 0:
+		print("Initial Titan Inc content generated.")
+		quit(0)
+	else:
+		push_error("Initial Titan Inc content generation failed with %d error(s)." % _failure_count)
+		quit(1)
 
 func _save_titans() -> void:
 	var data := [
