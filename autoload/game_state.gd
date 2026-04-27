@@ -24,7 +24,7 @@ var fullscreen := false
 func _ready() -> void:
 	reset_all()
 
-func reset_all() -> void:
+func reset_all(emit_changed := true) -> void:
 	_reset_currencies(false)
 	army_limits = STARTING_ARMY_LIMITS.duplicate(true)
 	upgrade_levels = {}
@@ -35,7 +35,8 @@ func reset_all() -> void:
 	current_zone_id = &"suburb"
 	prestige_available = false
 	fullscreen = false
-	SignalBus.game_state_changed.emit()
+	if emit_changed:
+		SignalBus.game_state_changed.emit()
 
 func reset_run_for_prestige() -> void:
 	_reset_currencies(true)
@@ -112,19 +113,26 @@ func to_save_data() -> Dictionary:
 	}
 
 func load_save_data(data: Dictionary) -> void:
-	reset_all()
-	currencies = _name_keys(data.get("currencies", currencies))
-	army_limits = _name_keys(data.get("army_limits", army_limits))
-	upgrade_levels = _name_keys(data.get("upgrade_levels", {}))
-	meta_upgrade_levels = _name_keys(data.get("meta_upgrade_levels", {}))
-	structure_hp = _name_keys(data.get("structure_hp", {}))
-	defeated_heroes = _name_keys(data.get("defeated_heroes", {}))
-	current_city_id = StringName(data.get("current_city_id", "fantasy_city_01"))
-	current_zone_id = StringName(data.get("current_zone_id", "suburb"))
-	prestige_available = bool(data.get("prestige_available", false))
-	fullscreen = bool(data.get("fullscreen", false))
+	var save_version := int(data.get("save_version", 0))
+	var migrated_data := _migrate_save_data(data, save_version)
+	reset_all(false)
+	currencies = _name_keys(migrated_data.get("currencies", currencies))
+	army_limits = _name_keys(migrated_data.get("army_limits", army_limits))
+	upgrade_levels = _name_keys(migrated_data.get("upgrade_levels", {}))
+	meta_upgrade_levels = _name_keys(migrated_data.get("meta_upgrade_levels", {}))
+	structure_hp = _name_keys(migrated_data.get("structure_hp", {}))
+	defeated_heroes = _name_keys(migrated_data.get("defeated_heroes", {}))
+	current_city_id = StringName(migrated_data.get("current_city_id", "fantasy_city_01"))
+	current_zone_id = StringName(migrated_data.get("current_zone_id", "suburb"))
+	prestige_available = bool(migrated_data.get("prestige_available", false))
+	fullscreen = bool(migrated_data.get("fullscreen", false))
 	SignalBus.save_loaded.emit()
 	SignalBus.game_state_changed.emit()
+
+func _migrate_save_data(data: Dictionary, save_version: int) -> Dictionary:
+	if save_version >= SAVE_VERSION:
+		return data
+	return data
 
 func _stringify_keys(source: Dictionary) -> Dictionary:
 	var result := {}

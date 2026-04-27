@@ -24,6 +24,11 @@ func load_game() -> bool:
 	GameState.load_save_data(parsed)
 	return true
 
-func delete_save() -> void:
-	if FileAccess.file_exists(SAVE_PATH):
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(SAVE_PATH))
+func delete_save() -> bool:
+	if not FileAccess.file_exists(SAVE_PATH):
+		return true
+	var error := DirAccess.remove_absolute(ProjectSettings.globalize_path(SAVE_PATH))
+	if error != OK:
+		push_error("Cannot delete save file: %s" % SAVE_PATH)
+		return false
+	return true
