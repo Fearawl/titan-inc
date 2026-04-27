@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="StructureTypeResource" format=3]
+
+[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="1_rx4s2"]
+[ext_resource type="Script" path="res://core/economy/drop_table_resource.gd" id="2_1rkys"]
+[ext_resource type="Script" path="res://content/structures/structure_type_resource.gd" id="3_jcth6"]
+
+[sub_resource type="Resource" id="Resource_lpe3d"]
+script = ExtResource("1_rx4s2")
+
+[sub_resource type="Resource" id="Resource_6ch80"]
+script = ExtResource("2_1rkys")
+guaranteed = {
+"metal": 15.0,
+"stone": 90.0
+}
+
+[resource]
+script = ExtResource("3_jcth6")
+id = &"wall_tower_left"
+display_name = "Wall Tower Left"
+max_hp = 900.0
+objective_priority = 6
+drop_table = SubResource("Resource_6ch80")
+collapse_damage = SubResource("Resource_lpe3d")
+garrison_slots = 5
+position = Vector2(1740, 300)
+size = Vector2(82, 150)

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="StructureTypeResource" format=3]
+
+[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="1_xm080"]
+[ext_resource type="Script" path="res://core/economy/drop_table_resource.gd" id="2_gup2s"]
+[ext_resource type="Script" path="res://content/structures/structure_type_resource.gd" id="3_bckyr"]
+
+[sub_resource type="Resource" id="Resource_lrd6a"]
+script = ExtResource("1_xm080")
+
+[sub_resource type="Resource" id="Resource_5dnfr"]
+script = ExtResource("2_gup2s")
+guaranteed = {
+"metal": 5.0,
+"stone": 40.0
+}
+
+[resource]
+script = ExtResource("3_bckyr")
+id = &"outer_tower_left"
+display_name = "Outer Tower Left"
+max_hp = 550.0
+objective_priority = 3
+drop_table = SubResource("Resource_5dnfr")
+collapse_damage = SubResource("Resource_lrd6a")
+garrison_slots = 4
+position = Vector2(1200, 310)
+size = Vector2(72, 130)

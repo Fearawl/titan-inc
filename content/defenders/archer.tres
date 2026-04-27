@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="DefenderTypeResource" format=3]
+
+[ext_resource type="Script" path="res://core/stats/unit_stats_resource.gd" id="1_v3enm"]
+[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="2_3s40u"]
+[ext_resource type="Script" path="res://core/economy/drop_table_resource.gd" id="3_ukg5y"]
+[ext_resource type="Script" path="res://content/defenders/defender_type_resource.gd" id="4_vy3vh"]
+
+[sub_resource type="Resource" id="Resource_nxwu5"]
+script = ExtResource("1_v3enm")
+max_hp = 18.0
+damage = 2.5
+attack_rate = 0.65
+move_speed = 35.0
+attack_radius = 20.0
+attack_range = 80.0
+
+[sub_resource type="Resource" id="Resource_0d086"]
+script = ExtResource("2_3s40u")
+structure_multiplier = 0.8
+
+[sub_resource type="Resource" id="Resource_ma76v"]
+script = ExtResource("3_ukg5y")
+guaranteed = {
+"meat": 2.0
+}
+
+[resource]
+script = ExtResource("4_vy3vh")
+id = &"archer"
+display_name = "Archer"
+base_stats = SubResource("Resource_nxwu5")
+preferred_position_types = Array[StringName]([&"tower_top", &"wall_top"])
+can_climb_tower = true
+damage_profile = SubResource("Resource_0d086")
+drop_table = SubResource("Resource_ma76v")

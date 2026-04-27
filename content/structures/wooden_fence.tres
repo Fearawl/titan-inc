@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="StructureTypeResource" format=3]
+
+[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="1_po1es"]
+[ext_resource type="Script" path="res://core/economy/drop_table_resource.gd" id="2_h3ly3"]
+[ext_resource type="Script" path="res://content/structures/structure_type_resource.gd" id="3_hb2bw"]
+
+[sub_resource type="Resource" id="Resource_rno1w"]
+script = ExtResource("1_po1es")
+
+[sub_resource type="Resource" id="Resource_7nekr"]
+script = ExtResource("2_h3ly3")
+guaranteed = {
+"stone": 1.0
+}
+
+[resource]
+script = ExtResource("3_hb2bw")
+id = &"wooden_fence"
+display_name = "Wooden Fence"
+max_hp = 45.0
+drop_table = SubResource("Resource_7nekr")
+collapse_damage = SubResource("Resource_rno1w")
+position = Vector2(650, 420)
+size = Vector2(90, 24)

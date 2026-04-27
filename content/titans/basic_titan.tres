@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="TitanTypeResource" format=3]
+
+[ext_resource type="Script" path="res://core/economy/cost_resource.gd" id="1_sxq13"]
+[ext_resource type="Script" path="res://core/stats/unit_stats_resource.gd" id="2_qfnbt"]
+[ext_resource type="Script" path="res://core/math/progression_formula_resource.gd" id="3_k21uv"]
+[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="4_ur8fm"]
+[ext_resource type="Script" path="res://content/titans/titan_type_resource.gd" id="5_eschl"]
+
+[sub_resource type="Resource" id="Resource_qga38"]
+script = ExtResource("1_sxq13")
+amounts = {
+"meat": 250.0,
+"stone": 10.0
+}
+
+[sub_resource type="Resource" id="Resource_qpm1w"]
+script = ExtResource("2_qfnbt")
+max_hp = 70.0
+damage = 8.0
+attack_rate = 0.9
+move_speed = 48.0
+attack_radius = 26.0
+
+[sub_resource type="Resource" id="Resource_skyde"]
+script = ExtResource("3_k21uv")
+
+[sub_resource type="Resource" id="Resource_iwwst"]
+script = ExtResource("4_ur8fm")
+
+[resource]
+script = ExtResource("5_eschl")
+id = &"basic_titan"
+display_name = "Basic Titan"
+base_stats = SubResource("Resource_qpm1w")
+base_cost = SubResource("Resource_qga38")
+cost_formula = SubResource("Resource_skyde")
+damage_profile = SubResource("Resource_iwwst")
+tags = Array[StringName]([&"basic"])

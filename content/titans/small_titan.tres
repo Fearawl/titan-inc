@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="TitanTypeResource" format=3]
+
+[ext_resource type="Script" path="res://core/economy/cost_resource.gd" id="1_pj21g"]
+[ext_resource type="Script" path="res://core/stats/unit_stats_resource.gd" id="2_pxpea"]
+[ext_resource type="Script" path="res://core/math/progression_formula_resource.gd" id="3_ac0ts"]
+[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="4_ydjst"]
+[ext_resource type="Script" path="res://content/titans/titan_type_resource.gd" id="5_gpu4q"]
+
+[sub_resource type="Resource" id="Resource_l5b3j"]
+script = ExtResource("1_pj21g")
+amounts = {
+"meat": 10.0
+}
+
+[sub_resource type="Resource" id="Resource_6bh46"]
+script = ExtResource("2_pxpea")
+max_hp = 35.0
+damage = 3.0
+attack_rate = 0.8
+move_speed = 42.0
+attack_radius = 22.0
+
+[sub_resource type="Resource" id="Resource_0ixwk"]
+script = ExtResource("3_ac0ts")
+
+[sub_resource type="Resource" id="Resource_amuk1"]
+script = ExtResource("4_ydjst")
+
+[resource]
+script = ExtResource("5_gpu4q")
+id = &"small_titan"
+display_name = "Small Titan"
+base_stats = SubResource("Resource_6bh46")
+base_cost = SubResource("Resource_l5b3j")
+cost_formula = SubResource("Resource_0ixwk")
+damage_profile = SubResource("Resource_amuk1")
+tags = Array[StringName]([&"small"])

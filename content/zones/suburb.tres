@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ZoneResource" format=3]
+
+[ext_resource type="Script" path="res://content/spawning/spawn_rule_resource.gd" id="1_pmfqr"]
+[ext_resource type="Script" path="res://world/defense_positions/defense_position_resource.gd" id="2_e7s7r"]
+[ext_resource type="Script" path="res://content/zones/zone_resource.gd" id="3_sh451"]
+[ext_resource type="Script" path="res://content/structures/structure_type_resource.gd" id="4_px5xk"]
+[ext_resource type="Resource" path="res://content/structures/suburb_house.tres" id="5_hd5nw"]
+[ext_resource type="Resource" path="res://content/structures/wooden_fence.tres" id="6_t6x32"]
+
+[resource]
+script = ExtResource("3_sh451")
+id = &"suburb"
+display_name = "Suburb"
+end_x = 900.0
+structures = Array[ExtResource("4_px5xk")]([ExtResource("5_hd5nw"), ExtResource("6_t6x32")])

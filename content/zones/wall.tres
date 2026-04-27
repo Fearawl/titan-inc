@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ZoneResource" format=3]
+
+[ext_resource type="Script" path="res://content/spawning/spawn_rule_resource.gd" id="1_j85ym"]
+[ext_resource type="Script" path="res://world/defense_positions/defense_position_resource.gd" id="2_ecu65"]
+[ext_resource type="Script" path="res://content/zones/zone_resource.gd" id="3_fdlu4"]
+[ext_resource type="Script" path="res://content/structures/structure_type_resource.gd" id="4_xrlu0"]
+[ext_resource type="Resource" path="res://content/structures/wall_tower_left.tres" id="5_lqwss"]
+[ext_resource type="Resource" path="res://content/structures/wall_gate.tres" id="6_wqcfu"]
+[ext_resource type="Resource" path="res://content/structures/wall_tower_right.tres" id="7_fp2mh"]
+
+[resource]
+script = ExtResource("3_fdlu4")
+id = &"wall"
+display_name = "Wall"
+start_x = 1500.0
+end_x = 2200.0
+structures = Array[ExtResource("4_xrlu0")]([ExtResource("5_lqwss"), ExtResource("6_wqcfu"), ExtResource("7_fp2mh")])

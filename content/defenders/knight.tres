@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="DefenderTypeResource" format=3]
+
+[ext_resource type="Script" path="res://core/stats/unit_stats_resource.gd" id="1_w7cgt"]
+[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="2_a8rk5"]
+[ext_resource type="Script" path="res://core/economy/drop_table_resource.gd" id="3_xkotw"]
+[ext_resource type="Script" path="res://content/defenders/defender_type_resource.gd" id="4_4gvhq"]
+
+[sub_resource type="Resource" id="Resource_gfgec"]
+script = ExtResource("1_w7cgt")
+max_hp = 75.0
+damage = 8.0
+attack_rate = 0.55
+move_speed = 28.0
+attack_radius = 20.0
+
+[sub_resource type="Resource" id="Resource_jcstd"]
+script = ExtResource("2_a8rk5")
+structure_multiplier = 0.8
+
+[sub_resource type="Resource" id="Resource_4r5cj"]
+script = ExtResource("3_xkotw")
+guaranteed = {
+"meat": 8.0,
+"metal": 2.0
+}
+
+[resource]
+script = ExtResource("4_4gvhq")
+id = &"knight"
+display_name = "Knight"
+base_stats = SubResource("Resource_gfgec")
+preferred_position_types = Array[StringName]([&"gate_line", &"ground"])
+damage_profile = SubResource("Resource_jcstd")
+drop_table = SubResource("Resource_4r5cj")

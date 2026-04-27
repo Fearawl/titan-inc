@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="TitanTypeResource" format=3]
+
+[ext_resource type="Script" path="res://core/economy/cost_resource.gd" id="1_jkoa2"]
+[ext_resource type="Script" path="res://core/stats/unit_stats_resource.gd" id="2_gd8i3"]
+[ext_resource type="Script" path="res://core/math/progression_formula_resource.gd" id="3_tgabu"]
+[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="4_5ao8h"]
+[ext_resource type="Script" path="res://content/titans/titan_type_resource.gd" id="5_bfgqa"]
+
+[sub_resource type="Resource" id="Resource_l3g16"]
+script = ExtResource("1_jkoa2")
+amounts = {
+"meat": 1000.0,
+"metal": 10.0
+}
+
+[sub_resource type="Resource" id="Resource_dhug5"]
+script = ExtResource("2_gd8i3")
+max_hp = 180.0
+damage = 9.0
+attack_rate = 0.7
+move_speed = 30.0
+attack_radius = 28.0
+
+[sub_resource type="Resource" id="Resource_2m5f6"]
+script = ExtResource("3_tgabu")
+
+[sub_resource type="Resource" id="Resource_4rsib"]
+script = ExtResource("4_5ao8h")
+
+[resource]
+script = ExtResource("5_bfgqa")
+id = &"armored_titan"
+display_name = "Armored Titan"
+base_stats = SubResource("Resource_dhug5")
+base_cost = SubResource("Resource_l3g16")
+cost_formula = SubResource("Resource_2m5f6")
+damage_profile = SubResource("Resource_4rsib")
+tags = Array[StringName]([&"armored"])

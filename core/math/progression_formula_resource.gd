@@ -22,7 +22,7 @@ func next_cost(previous_cost: Dictionary, purchase_count: int) -> Dictionary:
 func _multiply(cost: Dictionary, value: float) -> Dictionary:
 	var result := {}
 	for key in cost.keys():
-		var amount := ceil(float(cost[key]) * value)
+		var amount: float = ceil(float(cost[key]) * value)
 		if amount > 0.0:
 			result[StringName(str(key))] = amount
 	return result
@@ -30,7 +30,7 @@ func _multiply(cost: Dictionary, value: float) -> Dictionary:
 func _add(cost: Dictionary, value: float) -> Dictionary:
 	var result := {}
 	for key in cost.keys():
-		var amount := ceil(float(cost[key]) + value)
+		var amount: float = ceil(float(cost[key]) + value)
 		if amount > 0.0:
 			result[StringName(str(key))] = amount
 	return result

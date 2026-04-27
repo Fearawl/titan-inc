@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="StructureTypeResource" format=3]
+
+[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="1_eh122"]
+[ext_resource type="Script" path="res://core/economy/drop_table_resource.gd" id="2_fl0g3"]
+[ext_resource type="Script" path="res://content/structures/structure_type_resource.gd" id="3_v2llj"]
+
+[sub_resource type="Resource" id="Resource_u5h6u"]
+script = ExtResource("1_eh122")
+
+[sub_resource type="Resource" id="Resource_jb0xf"]
+script = ExtResource("2_fl0g3")
+guaranteed = {
+"stone": 5.0
+}
+
+[resource]
+script = ExtResource("3_v2llj")
+id = &"suburb_house"
+display_name = "Suburb House"
+max_hp = 120.0
+objective_priority = 1
+drop_table = SubResource("Resource_jb0xf")
+collapse_damage = SubResource("Resource_u5h6u")
+position = Vector2(450, 390)
+size = Vector2(60, 52)
