@@ -14,5 +14,7 @@ func to_dictionary() -> Dictionary:
 func multiplied(factor: float) -> Dictionary:
 	var result := {}
 	for key in amounts.keys():
-		result[StringName(str(key))] = ceil(float(amounts[key]) * factor)
+		var amount := ceil(float(amounts[key]) * factor)
+		if amount > 0.0:
+			result[StringName(str(key))] = amount
 	return result

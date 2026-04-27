@@ -9,13 +9,13 @@ class_name DamageProfileResource
 @export var unit_multiplier := 1.0
 
 func roll_damage(base_damage: float, target_is_structure: bool) -> Dictionary:
-	var multiplier := structure_multiplier if target_is_structure else unit_multiplier
-	var critical := randf() < critical_chance
-	var total := base_damage * multiplier
+	var multiplier := maxf(structure_multiplier if target_is_structure else unit_multiplier, 0.0)
+	var critical := randf() < clampf(critical_chance, 0.0, 1.0)
+	var total := maxf(base_damage * multiplier, 0.0)
 	if critical:
-		total *= critical_multiplier
+		total *= maxf(critical_multiplier, 0.0)
 	return {
-		"amount": total,
+		"amount": maxf(total, 0.0),
 		"is_critical": critical,
 		"damage_type": damage_type,
 	}
