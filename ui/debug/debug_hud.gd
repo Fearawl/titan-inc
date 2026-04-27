@@ -3,6 +3,14 @@ class_name DebugHud
 
 @onready var label: Label = $Panel/Label
 
+const TITAN_LIMIT_KEYS := {
+	KEY_1: &"small_titan",
+	KEY_2: &"runner_titan",
+	KEY_3: &"basic_titan",
+	KEY_4: &"armored_titan",
+	KEY_5: &"colossal_titan",
+}
+
 func _ready() -> void:
 	SignalBus.game_state_changed.connect(_refresh)
 	_refresh()
@@ -21,6 +29,30 @@ func _unhandled_input(event: InputEvent) -> void:
 		SaveService.save_game()
 	elif event is InputEventKey and event.keycode == KEY_F9:
 		SaveService.load_game()
+	elif event is InputEventKey and TITAN_LIMIT_KEYS.has(event.keycode):
+		_buy_army_limit(TITAN_LIMIT_KEYS[event.keycode])
+
+func _buy_army_limit(titan_id: StringName) -> void:
+	var current_limit := GameState.get_army_limit(titan_id)
+	if current_limit >= 100:
+		return
+	var catalog := _catalog()
+	if catalog == null:
+		return
+	var titan := catalog.get_titan(titan_id)
+	if titan == null:
+		return
+	var cost := titan.get_purchase_cost(current_limit)
+	if not GameState.pay(cost):
+		return
+	GameState.increase_army_limit(titan_id, 1)
+	SaveService.save_game()
+
+func _catalog() -> ContentCatalog:
+	var scene := get_tree().current_scene
+	if scene == null:
+		return null
+	return scene.get_node_or_null("ContentCatalog") as ContentCatalog
 
 func _refresh() -> void:
 	if label == null:
@@ -39,5 +71,6 @@ func _refresh() -> void:
 			GameState.get_army_limit(&"armored_titan"),
 			GameState.get_army_limit(&"colossal_titan"),
 		],
+		"Enter: resources  1-5: buy titan limits  F5: save  F9: load",
 	]
 	label.text = "\n".join(lines)
