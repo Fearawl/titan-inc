@@ -1,0 +1,17 @@
+*.gd text eol=lf
+*.godot text eol=lf
+*.import text eol=lf
+*.tscn text eol=lf
+*.tres text eol=lf
+*.uid text eol=lf
+
+*.aseprite binary
+*.bmp binary
+*.gif binary
+*.jpg binary
+*.jpeg binary
+*.ogg binary
+*.png binary
+*.ttf binary
+*.wav binary
+*.webp binary
