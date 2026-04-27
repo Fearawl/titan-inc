@@ -20,9 +20,7 @@ func configure_structure(type: StructureTypeResource) -> void:
 	structure_type = type
 	global_position = type.position
 	_ensure_nodes()
-	visible = true
-	collision_layer = 1
-	collision_mask = 1
+	_apply_active_state()
 	body.size = type.size
 	body.position = -type.size * 0.5
 	suppress_state_write = true
@@ -44,6 +42,17 @@ func repair(amount: float) -> void:
 
 func is_destroyed() -> bool:
 	return damageable.dead
+
+func restore_saved_hp(value: float) -> void:
+	_ensure_nodes()
+	suppress_state_write = true
+	damageable.set_current_hp(value, false)
+	if damageable.current_hp <= 0.0:
+		_apply_destroyed_state()
+	else:
+		_apply_active_state()
+	suppress_state_write = false
+	_on_hp_changed(damageable.current_hp, damageable.max_hp)
 
 func _on_hp_changed(current_hp: float, new_max_hp: float) -> void:
 	_ensure_nodes()
@@ -73,6 +82,11 @@ func _apply_destroyed_state() -> void:
 	visible = false
 	collision_layer = 0
 	collision_mask = 0
+
+func _apply_active_state() -> void:
+	visible = true
+	collision_layer = 1
+	collision_mask = 1
 
 func _ensure_nodes() -> void:
 	if damageable == null:

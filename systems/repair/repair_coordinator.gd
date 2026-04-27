@@ -46,4 +46,9 @@ func _spawn_worker(target: DestructibleStructure) -> void:
 	add_child(worker)
 	worker.global_position = spawn_origin
 	worker.configure_worker(target)
+	worker.work_completed.connect(_on_worker_completed)
 	registry.register_repair_worker(worker)
+
+func _on_worker_completed(worker: RepairWorker) -> void:
+	if registry != null:
+		registry.repair_workers.erase(worker)

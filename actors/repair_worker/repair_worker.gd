@@ -1,8 +1,11 @@
 extends CombatActor
 class_name RepairWorker
 
+signal work_completed(worker: RepairWorker)
+
 var repair_per_second := 8.0
 var target_structure: DestructibleStructure
+var _completed := false
 
 func configure_worker(target: DestructibleStructure) -> void:
 	team = &"defenders"
@@ -19,9 +22,22 @@ func configure_worker(target: DestructibleStructure) -> void:
 
 func _process(delta: float) -> void:
 	super._process(delta)
+	if _completed:
+		return
 	if target_structure == null or target_structure.is_destroyed():
+		_complete_work()
 		return
 	if absf(global_position.x - target_structure.global_position.x) > 12.0:
 		tick_movement(delta)
 	else:
 		target_structure.repair(repair_per_second * delta)
+		if target_structure.damageable.current_hp >= target_structure.damageable.max_hp:
+			_complete_work()
+
+func _complete_work() -> void:
+	if _completed:
+		return
+	_completed = true
+	work_completed.emit(self)
+	target_structure = null
+	queue_free()

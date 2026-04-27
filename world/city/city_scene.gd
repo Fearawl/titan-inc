@@ -7,6 +7,7 @@ extends Node2D
 @onready var structures_root: Node2D = $Structures
 
 func _ready() -> void:
+	SignalBus.save_loaded.connect(_on_save_loaded)
 	SaveService.load_game()
 	if catalog.titan_types.is_empty():
 		catalog.load_all()
@@ -31,3 +32,12 @@ func _spawn_structure(structure_type: StructureTypeResource) -> void:
 	structures_root.add_child(structure)
 	structure.configure_structure(structure_type)
 	registry.register_structure(structure)
+
+func _on_save_loaded() -> void:
+	for child in structures_root.get_children():
+		var structure := child as DestructibleStructure
+		if structure == null or structure.structure_type == null:
+			continue
+		if GameState.structure_hp.has(structure.structure_type.id):
+			structure.restore_saved_hp(float(GameState.structure_hp[structure.structure_type.id]))
+		registry.register_structure(structure)
