@@ -40,7 +40,7 @@ func _try_spawn_titan(titan_type: TitanTypeResource) -> void:
 	unit.global_position = spawn_origin + Vector2(0.0, randf_range(-28.0, 28.0))
 	unit.configure_titan(titan_type, target_x)
 	registry.register_titan(unit)
-	_cooldowns[titan_type.id] = _spawn_cooldown_for(titan_type)
+	_cooldowns[titan_type.id] = maxf(titan_type.spawn_cooldown, 0.05)
 
 func _alive_count(titan_id: StringName) -> int:
 	var count := 0
@@ -48,8 +48,3 @@ func _alive_count(titan_id: StringName) -> int:
 		if titan.titan_type != null and titan.titan_type.id == titan_id:
 			count += 1
 	return count
-
-func _spawn_cooldown_for(titan_type: TitanTypeResource) -> float:
-	if titan_type.base_stats == null:
-		return 5.0
-	return clampf(70.0 / maxf(titan_type.base_stats.move_speed, 1.0), 1.5, 8.0)
