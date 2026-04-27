@@ -178,3 +178,25 @@ Prestige доступен после первого убийства героя.
 - документация обновлена по фактическим решениям.
 
 Финальный UI, арт и баланс 2-3 часов не являются требованием самой первой технической версии, но являются целью вертикального среза.
+
+## Foundation Package Status
+
+Implemented in the first technical package:
+
+- Godot project startup.
+- Autoload `SignalBus`, `GameState`, and `SaveService`.
+- Custom Resource classes for core combat/economy/content data.
+- Initial content resources for titans, defenders, structures, and zones.
+- Debug city scene with simple visual actors.
+- Continuous titan and defender spawning.
+- HP, damage, destruction, drops, and basic repair workers.
+- Debug resource granting and army-limit purchases.
+- JSON save/load for core `GameState`.
+
+Remaining vertical-slice work:
+
+- Final UI/UX.
+- Real pixel art and animation.
+- Full balance pass for 2-3 hour first city pacing.
+- Cursor boost visualization and meta-upgrade table.
+- More complete tower climbing, formation, collapse debris, and zone completion polish.

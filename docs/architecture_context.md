@@ -1,5 +1,11 @@
 # Titan Inc - Architecture Context
 
+## Current Implementation Snapshot
+
+The first foundation package now contains a Godot 4.6 project skeleton, autoload services, custom Resource classes, generated first-pass content resources, a debug city scene, basic spawning, HP/damage/destruction, resource drops, debug army-limit purchases, and JSON save/load.
+
+The current visual layer uses simple rectangle actors and structures. These are temporary presentation assets; gameplay values still come from Resource data.
+
 Дата фиксации: 2026-04-27  
 Цель: быстрый вход нового исполнителя в проект
 
