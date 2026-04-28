@@ -3,6 +3,7 @@ class_name TitanSpawnCoordinator
 
 @export var registry_path: NodePath
 @export var catalog_path: NodePath
+@export var battle_lane_path: NodePath
 @export var titan_scene: PackedScene
 @export var spawn_origin := Vector2(80.0, 420.0)
 @export var target_x := 2200.0
@@ -11,6 +12,7 @@ var _cooldowns: Dictionary = {}
 
 @onready var registry: BattleRegistry = get_node_or_null(registry_path) as BattleRegistry
 @onready var catalog: ContentCatalog = get_node_or_null(catalog_path) as ContentCatalog
+@onready var battle_lane: BattleLane = get_node_or_null(battle_lane_path) as BattleLane
 
 func _process(delta: float) -> void:
 	if registry == null or catalog == null or titan_scene == null:
@@ -37,10 +39,15 @@ func _try_spawn_titan(titan_type: TitanTypeResource) -> void:
 	if unit == null:
 		return
 	add_child(unit)
-	unit.global_position = spawn_origin + Vector2(0.0, randf_range(-28.0, 28.0))
+	unit.global_position = _next_spawn_position()
 	unit.configure_titan(titan_type, target_x)
 	registry.register_titan(unit)
 	_cooldowns[titan_type.id] = maxf(titan_type.spawn_cooldown, 0.05)
+
+func _next_spawn_position() -> Vector2:
+	if battle_lane != null:
+		return battle_lane.random_titan_spawn_position()
+	return spawn_origin + Vector2(randf_range(-24.0, 24.0), randf_range(-28.0, 28.0))
 
 func _alive_count(titan_id: StringName) -> int:
 	var count := 0

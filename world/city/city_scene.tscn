@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" path="res://actors/repair_worker/repair_worker.tscn" id="11_worker"]
 [ext_resource type="Script" path="res://systems/camera/horizontal_camera_controller.gd" id="12_camera"]
 [ext_resource type="PackedScene" path="res://ui/debug/debug_hud.tscn" id="13_hud"]
+[ext_resource type="Script" path="res://world/battlefield/battle_lane.gd" id="14_battle_lane"]
 
 [node name="CityScene" type="Node2D"]
 script = ExtResource("1_city")
@@ -30,10 +31,18 @@ registry_path = NodePath("../BattleRegistry")
 
 [node name="Structures" type="Node2D" parent="."]
 
+[node name="BattleLane" type="Node2D" parent="."]
+script = ExtResource("14_battle_lane")
+lane_rect = Rect2(0, 230, 2300, 230)
+titan_spawn_x = 80.0
+titan_spawn_x_variance = 30.0
+debug_visible = true
+
 [node name="TitanSpawnCoordinator" type="Node" parent="."]
 script = ExtResource("6_titan_spawn")
 registry_path = NodePath("../BattleRegistry")
 catalog_path = NodePath("../ContentCatalog")
+battle_lane_path = NodePath("../BattleLane")
 titan_scene = ExtResource("7_titan")
 spawn_origin = Vector2(80, 420)
 target_x = 2200.0
