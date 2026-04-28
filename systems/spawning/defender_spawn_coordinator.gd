@@ -34,7 +34,8 @@ func _process(delta: float) -> void:
 	if registry == null or catalog == null or defender_scene == null:
 		return
 	for defender in registry.alive_defenders():
-		defender.tick_movement(delta)
+		if defender.behavior_controller != null:
+			defender.behavior_controller.tick(delta)
 	_cooldown = maxf(_cooldown - delta, 0.0)
 	if _cooldown > 0.0 or registry.alive_defenders().size() >= max_alive:
 		return
@@ -69,6 +70,7 @@ func _spawn_defender(defender_type: DefenderTypeResource) -> void:
 	var position: Vector2 = slot_payload["position"] if slot_payload.has("position") else DEFENSE_POSITIONS[randi() % DEFENSE_POSITIONS.size()]
 	unit.global_position = road_lane.point_at_x(spawn_origin.x) if road_lane != null else spawn_origin
 	unit.configure_defender(defender_type, position)
+	unit.configure_behavior(registry, road_lane, slot_payload)
 	if defense_slot_coordinator != null and slot_payload.has("id"):
 		var slot_id: StringName = slot_payload["id"]
 		_claimed_slot_by_unit[unit] = slot_id

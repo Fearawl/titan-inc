@@ -32,7 +32,10 @@ func _resolve_defender_attacks() -> void:
 	for defender in registry.alive_defenders():
 		if not defender.can_attack():
 			continue
-		var targets := TargetingService.units_in_radius(defender.global_position, defender.stats.attack_radius + defender.stats.attack_range, registry.alive_titans())
+		var attack_range := defender.stats.attack_radius + defender.stats.attack_range
+		if defender.behavior_controller != null:
+			attack_range = defender.behavior_controller.effective_attack_range()
+		var targets := TargetingService.units_in_radius(defender.global_position, attack_range, registry.alive_titans())
 		if targets.is_empty():
 			continue
 		var target: TitanUnit = targets[0] as TitanUnit
