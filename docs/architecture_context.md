@@ -39,6 +39,20 @@ Current MVP limits:
 - Cursor boost only affects titan damage.
 - Meta upgrades for attack speed, movement speed, destruction radius, and cursor radius remain future work.
 
+## Feedback VFX Foundation Status - 2026-04-28
+
+Implemented:
+
+- `Damageable` now emits local `damage_taken(amount, source_id, is_critical)` signals with actual applied damage while preserving existing HP/death behavior.
+- Combat roll critical metadata is forwarded through direct combat, siege melee, destructible structures, and arrow projectiles for presentation.
+- `FeedbackCoordinator` is scene-owned under the city scene and scans `BattleRegistry` arrays to connect damage signals until registry registration signals exist.
+- Placeholder damage popups and resource flyouts live under `vfx/` and provide readable temporary gameplay feedback.
+
+Current MVP limits:
+
+- Damage/resource visuals are intentionally placeholder presentation and are expected to be replaced by final pixel-art/VFX polish.
+- Damage hookups scan registry arrays each frame because `BattleRegistry` does not yet emit registration lifecycle signals.
+
 ## Run Stat Upgrade Foundation Status - 2026-04-28
 
 Implemented:

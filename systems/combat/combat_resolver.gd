@@ -20,12 +20,12 @@ func _resolve_titan_attacks() -> void:
 		var hit_anything := false
 		for defender in TargetingService.units_in_radius(titan.global_position, titan.stats.attack_radius, registry.alive_defenders()):
 			var roll := titan.damage_profile.roll_damage(titan.effective_damage(), false)
-			defender.damageable.apply_damage(float(roll["amount"]), titan.actor_id)
+			defender.damageable.apply_damage(float(roll["amount"]), titan.actor_id, bool(roll["is_critical"]))
 			hit_anything = true
 		var target_structure := TargetingService.nearest_structure_in_front(titan, registry.alive_structures())
 		if target_structure != null and titan.global_position.distance_to(target_structure.global_position) <= titan.stats.attack_radius:
 			var roll := titan.damage_profile.roll_damage(titan.effective_damage(), true)
-			target_structure.apply_damage(float(roll["amount"]), titan.actor_id)
+			target_structure.apply_damage(float(roll["amount"]), titan.actor_id, bool(roll["is_critical"]))
 			hit_anything = true
 		if hit_anything:
 			titan.consume_attack_cooldown()
@@ -52,7 +52,7 @@ func _resolve_defender_attacks() -> void:
 		if target == null:
 			continue
 		var roll := defender.damage_profile.roll_damage(defender.effective_damage(), false)
-		target.damageable.apply_damage(float(roll["amount"]), defender.actor_id)
+		target.damageable.apply_damage(float(roll["amount"]), defender.actor_id, bool(roll["is_critical"]))
 		defender.consume_attack_cooldown()
 
 func _is_ranged_archer(defender: DefenderUnit) -> bool:

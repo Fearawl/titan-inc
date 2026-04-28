@@ -113,7 +113,7 @@ func _fire_arrow(target: TitanUnit) -> bool:
 		return false
 	var roll := unit.damage_profile.roll_damage(unit.effective_damage(), false)
 	projectile.registry = registry
-	projectile.configure(unit, target, projectile_profile, float(roll["amount"]))
+	projectile.configure(unit, target, projectile_profile, float(roll["amount"]), bool(roll["is_critical"]))
 	projectile_root.add_child(projectile)
 	return true
 

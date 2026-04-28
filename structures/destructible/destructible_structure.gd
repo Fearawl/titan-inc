@@ -33,8 +33,8 @@ func configure_structure(type: StructureTypeResource) -> void:
 	suppress_state_write = false
 	_on_hp_changed(damageable.current_hp, damageable.max_hp)
 
-func apply_damage(amount: float, source_id: StringName = &"") -> void:
-	damageable.apply_damage(amount, source_id)
+func apply_damage(amount: float, source_id: StringName = &"", is_critical: bool = false) -> void:
+	damageable.apply_damage(amount, source_id, is_critical)
 
 func repair(amount: float) -> void:
 	if structure_type != null and structure_type.repairable:

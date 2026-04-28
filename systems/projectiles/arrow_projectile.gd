@@ -10,4 +10,4 @@ func _impact(battle_registry: BattleRegistry) -> void:
 	var titan := targets[0] as TitanUnit
 	if titan == null or titan.damageable == null:
 		return
-	titan.damageable.apply_damage(damage, source_id)
+	titan.damageable.apply_damage(damage, source_id, is_critical)

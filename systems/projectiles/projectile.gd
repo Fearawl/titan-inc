@@ -4,6 +4,7 @@ class_name Projectile
 var source_id: StringName
 var team: StringName
 var damage := 0.0
+var is_critical := false
 var profile: ProjectileProfileResource
 var start_position := Vector2.ZERO
 var target_position := Vector2.ZERO
@@ -12,15 +13,16 @@ var _duration := 1.0
 var _hit := false
 var registry: BattleRegistry
 
-func configure(source: CombatActor, target: CombatActor, projectile_profile: ProjectileProfileResource, damage_amount: float) -> void:
+func configure(source: CombatActor, target: CombatActor, projectile_profile: ProjectileProfileResource, damage_amount: float, critical := false) -> void:
 	if is_instance_valid(target):
-		configure_to_position(source, target.global_position, projectile_profile, damage_amount)
+		configure_to_position(source, target.global_position, projectile_profile, damage_amount, critical)
 	else:
 		queue_free()
 
-func configure_to_position(source: CombatActor, position: Vector2, projectile_profile: ProjectileProfileResource, damage_amount: float) -> void:
+func configure_to_position(source: CombatActor, position: Vector2, projectile_profile: ProjectileProfileResource, damage_amount: float, critical := false) -> void:
 	profile = projectile_profile
 	damage = maxf(damage_amount, 0.0)
+	is_critical = critical
 	if source == null or profile == null:
 		queue_free()
 		return

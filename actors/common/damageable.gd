@@ -2,6 +2,7 @@ extends Node
 class_name Damageable
 
 signal hp_changed(current_hp: float, max_hp: float)
+signal damage_taken(amount: float, source_id: StringName, is_critical: bool)
 signal died(source_id: StringName)
 
 @export var max_hp := 10.0
@@ -14,11 +15,15 @@ func configure(value: float) -> void:
 	dead = false
 	hp_changed.emit(current_hp, max_hp)
 
-func apply_damage(amount: float, source_id: StringName = &"") -> void:
+func apply_damage(amount: float, source_id: StringName = &"", is_critical: bool = false) -> void:
 	if dead or amount <= 0.0:
 		return
+	var previous_hp := current_hp
 	current_hp = maxf(current_hp - amount, 0.0)
 	hp_changed.emit(current_hp, max_hp)
+	var applied_damage := previous_hp - current_hp
+	if applied_damage > 0.0:
+		damage_taken.emit(applied_damage, source_id, is_critical)
 	if current_hp <= 0.0:
 		dead = true
 		died.emit(source_id)

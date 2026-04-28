@@ -144,6 +144,8 @@ Implementation note 2026-04-28: cursor boost foundation is implemented for titan
 
 ## 11. Ресурсы
 
+Implementation note 2026-04-28: placeholder damage numbers and resource flyouts are implemented through scene-owned feedback coordination. Final pixel-art/VFX timing and art polish remain future work.
+
 | Ресурс | Источник | Основное назначение |
 | --- | --- | --- |
 | Мясо | Убийство живых юнитов | Расширение армии и часть upgrades |

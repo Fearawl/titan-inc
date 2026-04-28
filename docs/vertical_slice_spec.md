@@ -192,6 +192,7 @@ Implemented in the first technical package:
 - HP, damage, destruction, drops, and basic repair workers.
 - Debug resource granting and army-limit purchases.
 - JSON save/load for core `GameState`.
+- Placeholder damage numbers and resource flyouts through a scene-owned feedback coordinator.
 
 Battlefield Behavior implemented through Task 8:
 
@@ -219,6 +220,7 @@ Remaining vertical-slice work:
 
 - Final UI/UX.
 - Real pixel art and animation.
+- Final combat/resource feedback art, timing, and polish.
 - Full balance pass for 2-3 hour first city pacing.
 - Upgrade UI polish, cursor boost visual polish, and meta-upgrade table.
 - More complete tower climbing animation, formation polish, collapse debris, and zone completion polish.

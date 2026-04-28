@@ -59,7 +59,7 @@ func _damage_rolling_defenders() -> void:
 		var key := typed.get_instance_id()
 		if _damaged_defenders.has(key):
 			continue
-		typed.damageable.apply_damage(damage, source_id)
+		typed.damageable.apply_damage(damage, source_id, is_critical)
 		_damaged_defenders[key] = true
 
 func _check_structure_collision() -> bool:
@@ -89,7 +89,7 @@ func _nearest_structure_in_front() -> DestructibleStructure:
 
 func _impact_structure(structure: DestructibleStructure) -> void:
 	if structure != null:
-		structure.apply_damage(damage, source_id)
+		structure.apply_damage(damage, source_id, is_critical)
 	_damage_impact_defenders()
 	_destroy()
 
@@ -103,7 +103,7 @@ func _damage_impact_defenders() -> void:
 		var key := typed.get_instance_id()
 		if _damaged_defenders.has(key):
 			continue
-		typed.damageable.apply_damage(damage, source_id)
+		typed.damageable.apply_damage(damage, source_id, is_critical)
 		_damaged_defenders[key] = true
 
 func _destroy() -> void:
