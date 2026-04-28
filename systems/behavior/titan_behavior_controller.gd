@@ -11,7 +11,7 @@ func configure(owner_unit: TitanUnit, battle_registry: BattleRegistry, lane: Bat
 	battle_lane = lane
 
 func tick(delta: float) -> void:
-	if unit == null or registry == null or unit.damageable == null or unit.damageable.dead:
+	if unit == null or registry == null or unit.damageable == null or unit.damageable.dead or unit.stats == null:
 		return
 	match _behavior_kind():
 		UnitBehaviorProfileResource.BehaviorKind.UNSTOPPABLE_PUSH:
