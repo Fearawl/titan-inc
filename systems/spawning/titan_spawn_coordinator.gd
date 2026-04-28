@@ -20,8 +20,6 @@ func _process(delta: float) -> void:
 	for titan in registry.alive_titans():
 		if titan.behavior_controller != null:
 			titan.behavior_controller.tick(delta)
-		else:
-			titan.tick_movement(delta)
 	_tick_cooldowns(delta)
 	for titan_type in catalog.titan_types.values():
 		_try_spawn_titan(titan_type as TitanTypeResource)
