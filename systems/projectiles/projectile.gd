@@ -1,0 +1,49 @@
+extends Node2D
+class_name Projectile
+
+var source_id: StringName
+var team: StringName
+var damage := 0.0
+var profile: ProjectileProfileResource
+var start_position := Vector2.ZERO
+var target_position := Vector2.ZERO
+var elapsed := 0.0
+var _duration := 1.0
+var _hit := false
+var registry: BattleRegistry
+
+func configure(source: CombatActor, target: CombatActor, projectile_profile: ProjectileProfileResource, damage_amount: float) -> void:
+	profile = projectile_profile
+	damage = maxf(damage_amount, 0.0)
+	if source == null or profile == null:
+		queue_free()
+		return
+	source_id = source.actor_id
+	team = source.team
+	start_position = source.global_position
+	global_position = start_position
+	if is_instance_valid(target):
+		target_position = target.global_position
+	elif target_position == Vector2.ZERO:
+		queue_free()
+		return
+	var distance := start_position.distance_to(target_position)
+	_duration = maxf(distance / maxf(profile.speed, 0.01), 0.01)
+
+func tick_projectile(delta: float, battle_registry: BattleRegistry) -> void:
+	if _hit or profile == null:
+		return
+	registry = battle_registry
+	elapsed += delta
+	var t := clampf(elapsed / maxf(_duration, 0.01), 0.0, 1.0)
+	global_position = start_position.lerp(target_position, t) + Vector2(0.0, -sin(t * PI) * profile.arc_height)
+	if t >= 1.0:
+		_hit = true
+		_impact(registry)
+		queue_free()
+
+func _process(delta: float) -> void:
+	tick_projectile(delta, registry)
+
+func _impact(_battle_registry: BattleRegistry) -> void:
+	pass

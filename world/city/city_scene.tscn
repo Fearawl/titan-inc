@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3]
+[gd_scene load_steps=18 format=3]
 
 [ext_resource type="Script" path="res://world/city/city_scene.gd" id="1_city"]
 [ext_resource type="PackedScene" path="res://structures/destructible/destructible_structure.tscn" id="2_structure"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" path="res://world/battlefield/battle_lane.gd" id="14_battle_lane"]
 [ext_resource type="Script" path="res://world/battlefield/road_lane.gd" id="15_road_lane"]
 [ext_resource type="Script" path="res://systems/defense/defense_slot_coordinator.gd" id="16_defense_slots"]
+[ext_resource type="PackedScene" path="res://systems/projectiles/arrow_projectile.tscn" id="17_arrow_projectile"]
 
 [node name="CityScene" type="Node2D"]
 script = ExtResource("1_city")
@@ -32,6 +33,8 @@ script = ExtResource("5_resolver")
 registry_path = NodePath("../BattleRegistry")
 
 [node name="Structures" type="Node2D" parent="."]
+
+[node name="Projectiles" type="Node2D" parent="."]
 
 [node name="BattleLane" type="Node2D" parent="."]
 script = ExtResource("14_battle_lane")
@@ -64,7 +67,9 @@ registry_path = NodePath("../BattleRegistry")
 catalog_path = NodePath("../ContentCatalog")
 road_lane_path = NodePath("../RoadLane")
 defense_slot_coordinator_path = NodePath("../DefenseSlotCoordinator")
+projectile_root_path = NodePath("../Projectiles")
 defender_scene = ExtResource("9_defender")
+arrow_projectile_scene = ExtResource("17_arrow_projectile")
 spawn_origin = Vector2(1960, 430)
 max_alive = 8
 spawn_cooldown = 3.0

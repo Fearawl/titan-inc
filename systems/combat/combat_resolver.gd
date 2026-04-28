@@ -32,6 +32,8 @@ func _resolve_defender_attacks() -> void:
 	for defender in registry.alive_defenders():
 		if not defender.can_attack():
 			continue
+		if _is_ranged_archer(defender):
+			continue
 		var attack_range := defender.stats.attack_radius + defender.stats.attack_range
 		if defender.behavior_controller != null:
 			attack_range = defender.behavior_controller.effective_attack_range()
@@ -44,3 +46,8 @@ func _resolve_defender_attacks() -> void:
 		var roll := defender.damage_profile.roll_damage(defender.stats.damage, false)
 		target.damageable.apply_damage(float(roll["amount"]), defender.actor_id)
 		defender.consume_attack_cooldown()
+
+func _is_ranged_archer(defender: DefenderUnit) -> bool:
+	return defender.defender_type != null \
+		and defender.defender_type.behavior_profile != null \
+		and defender.defender_type.behavior_profile.behavior_kind == UnitBehaviorProfileResource.BehaviorKind.RANGED_ARCHER

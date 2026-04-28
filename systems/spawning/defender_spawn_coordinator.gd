@@ -5,7 +5,9 @@ class_name DefenderSpawnCoordinator
 @export var catalog_path: NodePath
 @export var road_lane_path: NodePath
 @export var defense_slot_coordinator_path: NodePath
+@export var projectile_root_path: NodePath
 @export var defender_scene: PackedScene
+@export var arrow_projectile_scene: PackedScene
 @export var spawn_origin := Vector2(1900.0, 420.0)
 @export var max_alive := 8
 @export var spawn_cooldown := 3.0
@@ -29,6 +31,7 @@ var _claimed_slot_by_unit: Dictionary = {}
 @onready var catalog: ContentCatalog = get_node_or_null(catalog_path) as ContentCatalog
 @onready var road_lane: RoadLane = get_node_or_null(road_lane_path) as RoadLane
 @onready var defense_slot_coordinator: DefenseSlotCoordinator = get_node_or_null(defense_slot_coordinator_path) as DefenseSlotCoordinator
+@onready var projectile_root: Node2D = get_node_or_null(projectile_root_path) as Node2D
 
 func _process(delta: float) -> void:
 	if registry == null or catalog == null or defender_scene == null:
@@ -71,6 +74,7 @@ func _spawn_defender(defender_type: DefenderTypeResource) -> void:
 	unit.global_position = road_lane.point_at_x(spawn_origin.x) if road_lane != null else spawn_origin
 	unit.configure_defender(defender_type, position)
 	unit.configure_behavior(registry, road_lane, slot_payload)
+	unit.configure_projectiles(projectile_root, arrow_projectile_scene)
 	if defense_slot_coordinator != null and slot_payload.has("id"):
 		var slot_id: StringName = slot_payload["id"]
 		_claimed_slot_by_unit[unit] = slot_id

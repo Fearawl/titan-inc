@@ -16,3 +16,7 @@ func configure_defender(type: DefenderTypeResource, position: Vector2) -> void:
 func configure_behavior(registry: BattleRegistry, road_lane: RoadLane, slot_payload: Dictionary) -> void:
 	if behavior_controller != null:
 		behavior_controller.configure(self, registry, road_lane, slot_payload)
+
+func configure_projectiles(root: Node2D, arrow_projectile_scene: PackedScene) -> void:
+	if behavior_controller != null:
+		behavior_controller.configure_projectiles(root, arrow_projectile_scene)

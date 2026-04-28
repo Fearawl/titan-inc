@@ -9,6 +9,8 @@ var assigned_slot_position := Vector2.ZERO
 var range_multiplier := 1.0
 var leash_radius := 220.0
 var current_target: TitanUnit
+var projectile_root: Node2D
+var arrow_scene: PackedScene
 
 func configure(owner_unit: DefenderUnit, battle_registry: BattleRegistry, lane: RoadLane, slot_payload: Dictionary) -> void:
 	unit = owner_unit
@@ -28,6 +30,10 @@ func configure(owner_unit: DefenderUnit, battle_registry: BattleRegistry, lane: 
 		leash_radius = float(slot_payload["leash_radius"])
 	if not has_slot_position and assigned_slot_position == Vector2.ZERO and unit != null:
 		assigned_slot_position = unit.assigned_position
+
+func configure_projectiles(root: Node2D, arrow_projectile_scene: PackedScene) -> void:
+	projectile_root = root
+	arrow_scene = arrow_projectile_scene
 
 func tick(delta: float) -> void:
 	if unit == null or registry == null or unit.damageable == null or unit.damageable.dead or unit.stats == null:
@@ -72,8 +78,28 @@ func _tick_melee_defender(delta: float) -> void:
 func _tick_ranged_archer(delta: float) -> void:
 	current_target = _nearest_titan_in_attack_range()
 	if current_target != null:
+		if unit.can_attack() and _fire_arrow(current_target):
+			# Task 6 moves ranged defender damage ownership from CombatResolver to the projectile scene.
+			unit.consume_attack_cooldown()
 		return
 	_move_to_slot(delta)
+
+func _fire_arrow(target: TitanUnit) -> bool:
+	if unit == null or target == null or projectile_root == null or arrow_scene == null:
+		return false
+	if unit.defender_type == null or unit.defender_type.behavior_profile == null:
+		return false
+	var projectile_profile := unit.defender_type.behavior_profile.projectile_profile
+	if projectile_profile == null or unit.damage_profile == null or unit.stats == null:
+		return false
+	var projectile := arrow_scene.instantiate() as Projectile
+	if projectile == null:
+		return false
+	var roll := unit.damage_profile.roll_damage(unit.stats.damage, false)
+	projectile.registry = registry
+	projectile.configure(unit, target, projectile_profile, float(roll["amount"]))
+	projectile_root.add_child(projectile)
+	return true
 
 func _nearest_titan_in_vision_and_leash() -> TitanUnit:
 	var nearest: TitanUnit = null
