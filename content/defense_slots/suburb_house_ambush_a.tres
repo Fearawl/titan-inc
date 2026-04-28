@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="DefenseSlotResource" format=3]
+
+[ext_resource type="Script" path="res://world/defense_positions/defense_slot_resource.gd" id="1_lree7"]
+
+[resource]
+script = ExtResource("1_lree7")
+id = &"suburb_house_ambush_a"
+slot_type = 3
+capacity = 3
+position = Vector2(430, 420)
+leash_radius = 160.0
+allowed_defender_tags = Array[StringName]([&"ground"])
+anchor_structure_id = &"suburb_house"

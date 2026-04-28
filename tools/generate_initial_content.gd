@@ -5,6 +5,7 @@ const TitanTypeResourceScript := preload("res://content/titans/titan_type_resour
 const DefenderTypeResourceScript := preload("res://content/defenders/defender_type_resource.gd")
 const StructureTypeResourceScript := preload("res://content/structures/structure_type_resource.gd")
 const ZoneResourceScript := preload("res://content/zones/zone_resource.gd")
+const DefenseSlotResourceScript := preload("res://world/defense_positions/defense_slot_resource.gd")
 const UnitBehaviorProfileResource := preload("res://content/behaviors/unit_behavior_profile_resource.gd")
 const ProjectileProfileResource := preload("res://content/projectiles/projectile_profile_resource.gd")
 
@@ -27,6 +28,7 @@ func _init() -> void:
 	_save_titans()
 	_save_defenders()
 	_save_structures()
+	_save_defense_slots()
 	_save_zones()
 	_finish()
 
@@ -37,6 +39,7 @@ func _prepare_output_directories() -> bool:
 		"res://content/behaviors",
 		"res://content/projectiles",
 		"res://content/structures",
+		"res://content/defense_slots",
 		"res://content/zones",
 	]:
 		var err := DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(path))
@@ -250,6 +253,29 @@ func _save_structures() -> void:
 		structure.position = row[8]
 		structure.size = row[9]
 		_save("res://content/structures/%s.tres" % String(structure.id), structure)
+
+func _save_defense_slots() -> void:
+	var data := [
+		[&"suburb_house_ambush_a", DefenseSlotResourceScript.SlotType.AMBUSH, 3, Vector2(430, 420), 1.0, 160.0, [&"ground"], &"suburb_house"],
+		[&"wooden_fence_melee", DefenseSlotResourceScript.SlotType.MELEE_FRONT, 10, Vector2(610, 420), 1.0, 220.0, [&"ground", &"gate_line"], &"wooden_fence"],
+		[&"outer_tower_left_garrison", DefenseSlotResourceScript.SlotType.TOWER_GARRISON, 10, Vector2(1200, 245), 2.0, 180.0, [&"tower_top", &"wall_top"], &"outer_tower_left"],
+		[&"outer_tower_right_garrison", DefenseSlotResourceScript.SlotType.TOWER_GARRISON, 10, Vector2(1200, 430), 2.0, 180.0, [&"tower_top", &"wall_top"], &"outer_tower_right"],
+		[&"outer_tower_melee", DefenseSlotResourceScript.SlotType.MELEE_FRONT, 10, Vector2(1135, 420), 1.0, 230.0, [&"ground", &"gate_line"], &"outer_tower_left"],
+		[&"wall_gate_melee", DefenseSlotResourceScript.SlotType.MELEE_FRONT, 10, Vector2(1780, 420), 1.0, 260.0, [&"ground", &"gate_line"], &"wall_gate"],
+		[&"wall_tower_left_garrison", DefenseSlotResourceScript.SlotType.TOWER_GARRISON, 10, Vector2(1740, 225), 2.0, 200.0, [&"tower_top", &"wall_top"], &"wall_tower_left"],
+		[&"wall_tower_right_garrison", DefenseSlotResourceScript.SlotType.TOWER_GARRISON, 10, Vector2(1740, 435), 2.0, 200.0, [&"tower_top", &"wall_top"], &"wall_tower_right"],
+	]
+	for row in data:
+		var slot: Resource = DefenseSlotResourceScript.new()
+		slot.id = row[0]
+		slot.slot_type = row[1]
+		slot.capacity = row[2]
+		slot.position = row[3]
+		slot.range_multiplier = row[4]
+		slot.leash_radius = row[5]
+		slot.allowed_defender_tags = _string_names(row[6])
+		slot.anchor_structure_id = row[7]
+		_save("res://content/defense_slots/%s.tres" % String(slot.id), slot)
 
 func _save_zones() -> void:
 	var suburb: Resource = ZoneResourceScript.new()

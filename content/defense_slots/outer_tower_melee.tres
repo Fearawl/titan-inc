@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="DefenseSlotResource" format=3]
+
+[ext_resource type="Script" path="res://world/defense_positions/defense_slot_resource.gd" id="1_s78tp"]
+
+[resource]
+script = ExtResource("1_s78tp")
+id = &"outer_tower_melee"
+capacity = 10
+position = Vector2(1135, 420)
+leash_radius = 230.0
+allowed_defender_tags = Array[StringName]([&"ground", &"gate_line"])
+anchor_structure_id = &"outer_tower_left"

@@ -3,6 +3,8 @@ class_name DefenderSpawnCoordinator
 
 @export var registry_path: NodePath
 @export var catalog_path: NodePath
+@export var road_lane_path: NodePath
+@export var defense_slot_coordinator_path: NodePath
 @export var defender_scene: PackedScene
 @export var spawn_origin := Vector2(1900.0, 420.0)
 @export var max_alive := 8
@@ -24,6 +26,8 @@ var _hero_spawned := false
 
 @onready var registry: BattleRegistry = get_node_or_null(registry_path) as BattleRegistry
 @onready var catalog: ContentCatalog = get_node_or_null(catalog_path) as ContentCatalog
+@onready var road_lane: RoadLane = get_node_or_null(road_lane_path) as RoadLane
+@onready var defense_slot_coordinator: DefenseSlotCoordinator = get_node_or_null(defense_slot_coordinator_path) as DefenseSlotCoordinator
 
 func _process(delta: float) -> void:
 	if registry == null or catalog == null or defender_scene == null:
@@ -58,7 +62,15 @@ func _spawn_defender(defender_type: DefenderTypeResource) -> void:
 	if unit == null:
 		return
 	add_child(unit)
-	var position: Vector2 = DEFENSE_POSITIONS[randi() % DEFENSE_POSITIONS.size()]
-	unit.global_position = spawn_origin
+	var slot_payload := {}
+	if defense_slot_coordinator != null:
+		slot_payload = defense_slot_coordinator.claim_slot(defender_type)
+	var position: Vector2 = slot_payload["position"] if slot_payload.has("position") else DEFENSE_POSITIONS[randi() % DEFENSE_POSITIONS.size()]
+	unit.global_position = road_lane.point_at_x(spawn_origin.x) if road_lane != null else spawn_origin
 	unit.configure_defender(defender_type, position)
+	if defense_slot_coordinator != null and slot_payload.has("id"):
+		var slot_id: StringName = slot_payload["id"]
+		unit.defeated.connect(func(_actor: CombatActor) -> void:
+			defense_slot_coordinator.release_slot(slot_id)
+		)
 	registry.register_defender(unit)

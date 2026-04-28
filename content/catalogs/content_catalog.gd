@@ -5,6 +5,7 @@ const TitanTypeResourceScript := preload("res://content/titans/titan_type_resour
 const DefenderTypeResourceScript := preload("res://content/defenders/defender_type_resource.gd")
 const StructureTypeResourceScript := preload("res://content/structures/structure_type_resource.gd")
 const ZoneResourceScript := preload("res://content/zones/zone_resource.gd")
+const DefenseSlotResourceScript := preload("res://world/defense_positions/defense_slot_resource.gd")
 const UnitBehaviorProfileResource := preload("res://content/behaviors/unit_behavior_profile_resource.gd")
 const ProjectileProfileResource := preload("res://content/projectiles/projectile_profile_resource.gd")
 
@@ -12,6 +13,7 @@ var titan_types: Dictionary = {}
 var defender_types: Dictionary = {}
 var structure_types: Dictionary = {}
 var zones: Dictionary = {}
+var defense_slots: Dictionary = {}
 var behavior_profiles: Dictionary = {}
 var projectile_profiles: Dictionary = {}
 
@@ -23,6 +25,7 @@ func load_all() -> void:
 	defender_types = _load_resources("res://content/defenders", DefenderTypeResourceScript)
 	structure_types = _load_resources("res://content/structures", StructureTypeResourceScript)
 	zones = _load_resources("res://content/zones", ZoneResourceScript)
+	defense_slots = _load_resources("res://content/defense_slots", DefenseSlotResourceScript)
 	behavior_profiles = _load_resources("res://content/behaviors", UnitBehaviorProfileResource)
 	projectile_profiles = _load_resources("res://content/projectiles", ProjectileProfileResource)
 
@@ -34,6 +37,9 @@ func get_defender(id: StringName) -> DefenderTypeResource:
 
 func get_zone(id: StringName) -> ZoneResource:
 	return zones.get(id) as ZoneResource
+
+func get_defense_slot(id: StringName) -> DefenseSlotResource:
+	return defense_slots.get(id) as DefenseSlotResource
 
 func get_behavior_profile(id: StringName) -> UnitBehaviorProfileResource:
 	return behavior_profiles.get(id) as UnitBehaviorProfileResource

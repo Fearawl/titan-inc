@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="DefenseSlotResource" format=3]
+
+[ext_resource type="Script" path="res://world/defense_positions/defense_slot_resource.gd" id="1_8utlw"]
+
+[resource]
+script = ExtResource("1_8utlw")
+id = &"wall_tower_right_garrison"
+slot_type = 2
+capacity = 10
+position = Vector2(1740, 435)
+range_multiplier = 2.0
+leash_radius = 200.0
+allowed_defender_tags = Array[StringName]([&"tower_top", &"wall_top"])
+anchor_structure_id = &"wall_tower_right"
