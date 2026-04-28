@@ -1,34 +1,36 @@
 [gd_resource type="Resource" script_class="DefenderTypeResource" format=3]
 
-[ext_resource type="Script" path="res://core/stats/unit_stats_resource.gd" id="1_tnicg"]
-[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="2_q2v23"]
-[ext_resource type="Script" path="res://core/economy/drop_table_resource.gd" id="3_x6c0r"]
-[ext_resource type="Script" path="res://content/defenders/defender_type_resource.gd" id="4_wtqc1"]
+[ext_resource type="Script" path="res://core/stats/unit_stats_resource.gd" id="1_q2v23"]
+[ext_resource type="Resource" path="res://content/behaviors/melee_defender.tres" id="2_x6c0r"]
+[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="3_wtqc1"]
+[ext_resource type="Script" path="res://core/economy/drop_table_resource.gd" id="4_elcnk"]
+[ext_resource type="Script" path="res://content/defenders/defender_type_resource.gd" id="5_vv6f1"]
 
-[sub_resource type="Resource" id="Resource_elcnk"]
-script = ExtResource("1_tnicg")
+[sub_resource type="Resource" id="Resource_h12ys"]
+script = ExtResource("1_q2v23")
 max_hp = 900.0
 damage = 24.0
 attack_rate = 0.65
 move_speed = 32.0
 attack_radius = 20.0
 
-[sub_resource type="Resource" id="Resource_vv6f1"]
-script = ExtResource("2_q2v23")
+[sub_resource type="Resource" id="Resource_q8krc"]
+script = ExtResource("3_wtqc1")
 structure_multiplier = 0.8
 
-[sub_resource type="Resource" id="Resource_h12ys"]
-script = ExtResource("3_x6c0r")
+[sub_resource type="Resource" id="Resource_34vc5"]
+script = ExtResource("4_elcnk")
 guaranteed = {
 "hero_heart": 1.0
 }
 
 [resource]
-script = ExtResource("4_wtqc1")
+script = ExtResource("5_vv6f1")
 id = &"first_hero"
 display_name = "First Hero"
-base_stats = SubResource("Resource_elcnk")
+base_stats = SubResource("Resource_h12ys")
 preferred_position_types = Array[StringName]([&"gate_line"])
-damage_profile = SubResource("Resource_vv6f1")
-drop_table = SubResource("Resource_h12ys")
+damage_profile = SubResource("Resource_q8krc")
+behavior_profile = ExtResource("2_x6c0r")
+drop_table = SubResource("Resource_34vc5")
 is_hero = true

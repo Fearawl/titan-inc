@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="UnitBehaviorProfileResource" format=3]
+
+[ext_resource type="Script" path="res://content/behaviors/unit_behavior_profile_resource.gd" id="1_lk6l5"]
+
+[resource]
+script = ExtResource("1_lk6l5")
+id = &"melee_defender"
+behavior_kind = 3
+vision_range = 170.0
+leash_radius = 240.0

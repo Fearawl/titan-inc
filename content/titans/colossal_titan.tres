@@ -1,21 +1,22 @@
 [gd_resource type="Resource" script_class="TitanTypeResource" format=3]
 
-[ext_resource type="Script" path="res://core/economy/cost_resource.gd" id="1_4hy7o"]
-[ext_resource type="Script" path="res://core/stats/unit_stats_resource.gd" id="2_sdklo"]
-[ext_resource type="Script" path="res://core/math/progression_formula_resource.gd" id="3_lbxjr"]
-[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="4_chiss"]
-[ext_resource type="Script" path="res://content/titans/titan_type_resource.gd" id="5_yhj7s"]
+[ext_resource type="Script" path="res://core/economy/cost_resource.gd" id="1_sdklo"]
+[ext_resource type="Script" path="res://core/stats/unit_stats_resource.gd" id="2_lbxjr"]
+[ext_resource type="Resource" path="res://content/behaviors/siege_colossal.tres" id="3_chiss"]
+[ext_resource type="Script" path="res://core/math/progression_formula_resource.gd" id="4_yhj7s"]
+[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="5_dcw1i"]
+[ext_resource type="Script" path="res://content/titans/titan_type_resource.gd" id="6_hj63p"]
 
-[sub_resource type="Resource" id="Resource_dcw1i"]
-script = ExtResource("1_4hy7o")
+[sub_resource type="Resource" id="Resource_athlx"]
+script = ExtResource("1_sdklo")
 amounts = {
 "meat": 10000.0,
 "metal": 1000.0,
 "stone": 1000.0
 }
 
-[sub_resource type="Resource" id="Resource_hj63p"]
-script = ExtResource("2_sdklo")
+[sub_resource type="Resource" id="Resource_mgn41"]
+script = ExtResource("2_lbxjr")
 max_hp = 500.0
 damage = 45.0
 attack_rate = 0.35
@@ -23,19 +24,20 @@ move_speed = 18.0
 attack_radius = 64.0
 attack_range = 120.0
 
-[sub_resource type="Resource" id="Resource_athlx"]
-script = ExtResource("3_lbxjr")
+[sub_resource type="Resource" id="Resource_0xeq0"]
+script = ExtResource("4_yhj7s")
 
-[sub_resource type="Resource" id="Resource_mgn41"]
-script = ExtResource("4_chiss")
+[sub_resource type="Resource" id="Resource_lyko1"]
+script = ExtResource("5_dcw1i")
 structure_multiplier = 1.25
 
 [resource]
-script = ExtResource("5_yhj7s")
+script = ExtResource("6_hj63p")
 id = &"colossal_titan"
 display_name = "Colossal Titan"
-base_stats = SubResource("Resource_hj63p")
-base_cost = SubResource("Resource_dcw1i")
-cost_formula = SubResource("Resource_athlx")
-damage_profile = SubResource("Resource_mgn41")
+base_stats = SubResource("Resource_mgn41")
+base_cost = SubResource("Resource_athlx")
+cost_formula = SubResource("Resource_0xeq0")
+damage_profile = SubResource("Resource_lyko1")
+behavior_profile = ExtResource("3_chiss")
 tags = Array[StringName]([&"colossal", &"siege"])

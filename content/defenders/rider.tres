@@ -1,33 +1,35 @@
 [gd_resource type="Resource" script_class="DefenderTypeResource" format=3]
 
-[ext_resource type="Script" path="res://core/stats/unit_stats_resource.gd" id="1_iseh2"]
-[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="2_llp4t"]
-[ext_resource type="Script" path="res://core/economy/drop_table_resource.gd" id="3_8wuin"]
-[ext_resource type="Script" path="res://content/defenders/defender_type_resource.gd" id="4_a31yp"]
+[ext_resource type="Script" path="res://core/stats/unit_stats_resource.gd" id="1_llp4t"]
+[ext_resource type="Resource" path="res://content/behaviors/melee_defender.tres" id="2_8wuin"]
+[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="3_a31yp"]
+[ext_resource type="Script" path="res://core/economy/drop_table_resource.gd" id="4_0cjdv"]
+[ext_resource type="Script" path="res://content/defenders/defender_type_resource.gd" id="5_pf2cl"]
 
-[sub_resource type="Resource" id="Resource_0cjdv"]
-script = ExtResource("1_iseh2")
+[sub_resource type="Resource" id="Resource_pdb54"]
+script = ExtResource("1_llp4t")
 max_hp = 55.0
 damage = 7.0
 attack_rate = 0.7
 move_speed = 62.0
 attack_radius = 20.0
 
-[sub_resource type="Resource" id="Resource_pf2cl"]
-script = ExtResource("2_llp4t")
+[sub_resource type="Resource" id="Resource_0vjvb"]
+script = ExtResource("3_a31yp")
 structure_multiplier = 0.8
 
-[sub_resource type="Resource" id="Resource_pdb54"]
-script = ExtResource("3_8wuin")
+[sub_resource type="Resource" id="Resource_bme2q"]
+script = ExtResource("4_0cjdv")
 guaranteed = {
 "meat": 7.0,
 "metal": 1.0
 }
 
 [resource]
-script = ExtResource("4_a31yp")
+script = ExtResource("5_pf2cl")
 id = &"rider"
 display_name = "Rider"
-base_stats = SubResource("Resource_0cjdv")
-damage_profile = SubResource("Resource_pf2cl")
-drop_table = SubResource("Resource_pdb54")
+base_stats = SubResource("Resource_pdb54")
+damage_profile = SubResource("Resource_0vjvb")
+behavior_profile = ExtResource("2_8wuin")
+drop_table = SubResource("Resource_bme2q")

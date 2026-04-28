@@ -1,31 +1,33 @@
 [gd_resource type="Resource" script_class="DefenderTypeResource" format=3]
 
-[ext_resource type="Script" path="res://core/stats/unit_stats_resource.gd" id="1_h2ci8"]
-[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="2_gg7nk"]
-[ext_resource type="Script" path="res://core/economy/drop_table_resource.gd" id="3_vay3f"]
-[ext_resource type="Script" path="res://content/defenders/defender_type_resource.gd" id="4_myabl"]
+[ext_resource type="Script" path="res://core/stats/unit_stats_resource.gd" id="1_gg7nk"]
+[ext_resource type="Resource" path="res://content/behaviors/melee_defender.tres" id="2_vay3f"]
+[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="3_myabl"]
+[ext_resource type="Script" path="res://core/economy/drop_table_resource.gd" id="4_230sd"]
+[ext_resource type="Script" path="res://content/defenders/defender_type_resource.gd" id="5_w827a"]
 
-[sub_resource type="Resource" id="Resource_230sd"]
-script = ExtResource("1_h2ci8")
+[sub_resource type="Resource" id="Resource_8vbp2"]
+script = ExtResource("1_gg7nk")
 max_hp = 12.0
 attack_rate = 0.7
 move_speed = 38.0
 attack_radius = 20.0
 
-[sub_resource type="Resource" id="Resource_w827a"]
-script = ExtResource("2_gg7nk")
+[sub_resource type="Resource" id="Resource_1tm63"]
+script = ExtResource("3_myabl")
 structure_multiplier = 0.8
 
-[sub_resource type="Resource" id="Resource_8vbp2"]
-script = ExtResource("3_vay3f")
+[sub_resource type="Resource" id="Resource_uxuhg"]
+script = ExtResource("4_230sd")
 guaranteed = {
 "meat": 1.0
 }
 
 [resource]
-script = ExtResource("4_myabl")
+script = ExtResource("5_w827a")
 id = &"peasant"
 display_name = "Peasant"
-base_stats = SubResource("Resource_230sd")
-damage_profile = SubResource("Resource_w827a")
-drop_table = SubResource("Resource_8vbp2")
+base_stats = SubResource("Resource_8vbp2")
+damage_profile = SubResource("Resource_1tm63")
+behavior_profile = ExtResource("2_vay3f")
+drop_table = SubResource("Resource_uxuhg")

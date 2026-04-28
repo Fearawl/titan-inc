@@ -1,36 +1,38 @@
 [gd_resource type="Resource" script_class="TitanTypeResource" format=3]
 
-[ext_resource type="Script" path="res://core/economy/cost_resource.gd" id="1_dehrs"]
-[ext_resource type="Script" path="res://core/stats/unit_stats_resource.gd" id="2_hk2jy"]
-[ext_resource type="Script" path="res://core/math/progression_formula_resource.gd" id="3_3txj7"]
-[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="4_daqk6"]
-[ext_resource type="Script" path="res://content/titans/titan_type_resource.gd" id="5_mp6ou"]
+[ext_resource type="Script" path="res://core/economy/cost_resource.gd" id="1_hk2jy"]
+[ext_resource type="Script" path="res://core/stats/unit_stats_resource.gd" id="2_3txj7"]
+[ext_resource type="Resource" path="res://content/behaviors/unstoppable_push.tres" id="3_daqk6"]
+[ext_resource type="Script" path="res://core/math/progression_formula_resource.gd" id="4_mp6ou"]
+[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="5_q762c"]
+[ext_resource type="Script" path="res://content/titans/titan_type_resource.gd" id="6_2mcpn"]
 
-[sub_resource type="Resource" id="Resource_q762c"]
-script = ExtResource("1_dehrs")
+[sub_resource type="Resource" id="Resource_xi55b"]
+script = ExtResource("1_hk2jy")
 amounts = {
 "meat": 100.0
 }
 
-[sub_resource type="Resource" id="Resource_2mcpn"]
-script = ExtResource("2_hk2jy")
+[sub_resource type="Resource" id="Resource_meih3"]
+script = ExtResource("2_3txj7")
 max_hp = 30.0
 damage = 5.0
 move_speed = 75.0
 attack_radius = 22.0
 
-[sub_resource type="Resource" id="Resource_xi55b"]
-script = ExtResource("3_3txj7")
+[sub_resource type="Resource" id="Resource_gtgr1"]
+script = ExtResource("4_mp6ou")
 
-[sub_resource type="Resource" id="Resource_meih3"]
-script = ExtResource("4_daqk6")
+[sub_resource type="Resource" id="Resource_oowlm"]
+script = ExtResource("5_q762c")
 
 [resource]
-script = ExtResource("5_mp6ou")
+script = ExtResource("6_2mcpn")
 id = &"runner_titan"
 display_name = "Runner Titan"
-base_stats = SubResource("Resource_2mcpn")
-base_cost = SubResource("Resource_q762c")
-cost_formula = SubResource("Resource_xi55b")
-damage_profile = SubResource("Resource_meih3")
+base_stats = SubResource("Resource_meih3")
+base_cost = SubResource("Resource_xi55b")
+cost_formula = SubResource("Resource_gtgr1")
+damage_profile = SubResource("Resource_oowlm")
+behavior_profile = ExtResource("3_daqk6")
 tags = Array[StringName]([&"runner"])

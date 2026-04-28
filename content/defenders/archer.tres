@@ -1,12 +1,13 @@
 [gd_resource type="Resource" script_class="DefenderTypeResource" format=3]
 
-[ext_resource type="Script" path="res://core/stats/unit_stats_resource.gd" id="1_v3enm"]
-[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="2_3s40u"]
-[ext_resource type="Script" path="res://core/economy/drop_table_resource.gd" id="3_ukg5y"]
-[ext_resource type="Script" path="res://content/defenders/defender_type_resource.gd" id="4_vy3vh"]
+[ext_resource type="Script" path="res://core/stats/unit_stats_resource.gd" id="1_3s40u"]
+[ext_resource type="Resource" path="res://content/behaviors/ranged_archer.tres" id="2_ukg5y"]
+[ext_resource type="Script" path="res://core/combat/damage_profile_resource.gd" id="3_vy3vh"]
+[ext_resource type="Script" path="res://core/economy/drop_table_resource.gd" id="4_nxwu5"]
+[ext_resource type="Script" path="res://content/defenders/defender_type_resource.gd" id="5_0d086"]
 
-[sub_resource type="Resource" id="Resource_nxwu5"]
-script = ExtResource("1_v3enm")
+[sub_resource type="Resource" id="Resource_ma76v"]
+script = ExtResource("1_3s40u")
 max_hp = 18.0
 damage = 2.5
 attack_rate = 0.65
@@ -14,22 +15,23 @@ move_speed = 35.0
 attack_radius = 20.0
 attack_range = 80.0
 
-[sub_resource type="Resource" id="Resource_0d086"]
-script = ExtResource("2_3s40u")
+[sub_resource type="Resource" id="Resource_88d2c"]
+script = ExtResource("3_vy3vh")
 structure_multiplier = 0.8
 
-[sub_resource type="Resource" id="Resource_ma76v"]
-script = ExtResource("3_ukg5y")
+[sub_resource type="Resource" id="Resource_3b5j7"]
+script = ExtResource("4_nxwu5")
 guaranteed = {
 "meat": 2.0
 }
 
 [resource]
-script = ExtResource("4_vy3vh")
+script = ExtResource("5_0d086")
 id = &"archer"
 display_name = "Archer"
-base_stats = SubResource("Resource_nxwu5")
+base_stats = SubResource("Resource_ma76v")
 preferred_position_types = Array[StringName]([&"tower_top", &"wall_top"])
 can_climb_tower = true
-damage_profile = SubResource("Resource_0d086")
-drop_table = SubResource("Resource_ma76v")
+damage_profile = SubResource("Resource_88d2c")
+behavior_profile = ExtResource("2_ukg5y")
+drop_table = SubResource("Resource_3b5j7")

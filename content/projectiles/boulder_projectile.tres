@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ProjectileProfileResource" format=3]
+
+[ext_resource type="Script" path="res://content/projectiles/projectile_profile_resource.gd" id="1_c4fuu"]
+
+[resource]
+script = ExtResource("1_c4fuu")
+id = &"boulder_projectile"
+projectile_kind = 1
+speed = 180.0
+arc_height = 150.0
+impact_radius = 48.0
+roll_distance = 220.0
+lifetime = 6.0

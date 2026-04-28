@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ProjectileProfileResource" format=3]
+
+[ext_resource type="Script" path="res://content/projectiles/projectile_profile_resource.gd" id="1_6ihnt"]
+
+[resource]
+script = ExtResource("1_6ihnt")
+id = &"arrow_projectile"
+speed = 280.0
+arc_height = 70.0
+impact_radius = 12.0
+lifetime = 3.0

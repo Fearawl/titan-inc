@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="UnitBehaviorProfileResource" format=3]
+
+[ext_resource type="Resource" path="res://content/projectiles/arrow_projectile.tres" id="1_gxiex"]
+[ext_resource type="Script" path="res://content/behaviors/unit_behavior_profile_resource.gd" id="2_i0gol"]
+
+[resource]
+script = ExtResource("2_i0gol")
+id = &"ranged_archer"
+behavior_kind = 4
+vision_range = 240.0
+leash_radius = 180.0
+projectile_profile = ExtResource("1_gxiex")

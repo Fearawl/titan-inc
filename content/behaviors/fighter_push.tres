@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="UnitBehaviorProfileResource" format=3]
+
+[ext_resource type="Script" path="res://content/behaviors/unit_behavior_profile_resource.gd" id="1_1aq1b"]
+
+[resource]
+script = ExtResource("1_1aq1b")
+id = &"fighter_push"
+melee_stop_on_attacker = true
+vision_range = 120.0
+leash_radius = 180.0

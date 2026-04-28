@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="UnitBehaviorProfileResource" format=3]
+
+[ext_resource type="Resource" path="res://content/projectiles/boulder_projectile.tres" id="1_313u4"]
+[ext_resource type="Script" path="res://content/behaviors/unit_behavior_profile_resource.gd" id="2_h8fqw"]
+
+[resource]
+script = ExtResource("2_h8fqw")
+id = &"siege_colossal"
+behavior_kind = 2
+moving_aoe_interval = 1.0
+vision_range = 220.0
+leash_radius = 180.0
+projectile_profile = ExtResource("1_313u4")

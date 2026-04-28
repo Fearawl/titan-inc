@@ -1,6 +1,8 @@
 extends Resource
 class_name TitanTypeResource
 
+const UnitBehaviorProfileResource := preload("res://content/behaviors/unit_behavior_profile_resource.gd")
+
 @export var id: StringName
 @export var display_name := ""
 @export var scene: PackedScene
@@ -10,6 +12,7 @@ class_name TitanTypeResource
 @export var base_cost: CostResource
 @export var cost_formula: ProgressionFormulaResource
 @export var damage_profile: DamageProfileResource
+@export var behavior_profile: UnitBehaviorProfileResource
 @export var tags: Array[StringName] = []
 
 func get_purchase_cost(current_limit: int) -> Dictionary:
