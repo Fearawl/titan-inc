@@ -15,3 +15,7 @@ func configure_titan(type: TitanTypeResource, spawn_target_x: float) -> void:
 func configure_behavior(registry: BattleRegistry, battle_lane: BattleLane) -> void:
 	if behavior_controller != null:
 		behavior_controller.configure(self, registry, battle_lane)
+
+func configure_projectiles(root: Node2D, boulder_scene: PackedScene) -> void:
+	if behavior_controller != null:
+		behavior_controller.configure_projectiles(root, boulder_scene)

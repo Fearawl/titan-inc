@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://systems/projectiles/boulder_projectile.gd" id="1_boulder"]
+
+[node name="BoulderProjectile" type="Node2D"]
+script = ExtResource("1_boulder")
+
+[node name="Body" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, -13, 9, -9, 13, 0, 9, 9, 0, 13, -9, 9, -13, 0, -9, -9)
+color = Color(0.42, 0.36, 0.31, 1)
+
+[node name="Highlight" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-5, -8, 0, -10, 4, -7, 0, -4)
+color = Color(0.62, 0.56, 0.49, 1)

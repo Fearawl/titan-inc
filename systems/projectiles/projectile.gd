@@ -13,6 +13,12 @@ var _hit := false
 var registry: BattleRegistry
 
 func configure(source: CombatActor, target: CombatActor, projectile_profile: ProjectileProfileResource, damage_amount: float) -> void:
+	if is_instance_valid(target):
+		configure_to_position(source, target.global_position, projectile_profile, damage_amount)
+	else:
+		queue_free()
+
+func configure_to_position(source: CombatActor, position: Vector2, projectile_profile: ProjectileProfileResource, damage_amount: float) -> void:
 	profile = projectile_profile
 	damage = maxf(damage_amount, 0.0)
 	if source == null or profile == null:
@@ -21,12 +27,11 @@ func configure(source: CombatActor, target: CombatActor, projectile_profile: Pro
 	source_id = source.actor_id
 	team = source.team
 	start_position = source.global_position
+	target_position = position
 	global_position = start_position
-	if is_instance_valid(target):
-		target_position = target.global_position
-	elif target_position == Vector2.ZERO:
-		queue_free()
-		return
+	_configure_duration()
+
+func _configure_duration() -> void:
 	var distance := start_position.distance_to(target_position)
 	_duration = maxf(distance / maxf(profile.speed, 0.01), 0.01)
 

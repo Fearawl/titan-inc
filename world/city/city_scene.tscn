@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene load_steps=19 format=3]
 
 [ext_resource type="Script" path="res://world/city/city_scene.gd" id="1_city"]
 [ext_resource type="PackedScene" path="res://structures/destructible/destructible_structure.tscn" id="2_structure"]
@@ -17,6 +17,7 @@
 [ext_resource type="Script" path="res://world/battlefield/road_lane.gd" id="15_road_lane"]
 [ext_resource type="Script" path="res://systems/defense/defense_slot_coordinator.gd" id="16_defense_slots"]
 [ext_resource type="PackedScene" path="res://systems/projectiles/arrow_projectile.tscn" id="17_arrow_projectile"]
+[ext_resource type="PackedScene" path="res://systems/projectiles/boulder_projectile.tscn" id="18_boulder_projectile"]
 
 [node name="CityScene" type="Node2D"]
 script = ExtResource("1_city")
@@ -57,7 +58,9 @@ script = ExtResource("6_titan_spawn")
 registry_path = NodePath("../BattleRegistry")
 catalog_path = NodePath("../ContentCatalog")
 battle_lane_path = NodePath("../BattleLane")
+projectile_root_path = NodePath("../Projectiles")
 titan_scene = ExtResource("7_titan")
+boulder_projectile_scene = ExtResource("18_boulder_projectile")
 spawn_origin = Vector2(80, 420)
 target_x = 2200.0
 

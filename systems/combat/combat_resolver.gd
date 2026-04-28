@@ -13,6 +13,8 @@ func _process(_delta: float) -> void:
 
 func _resolve_titan_attacks() -> void:
 	for titan in registry.alive_titans():
+		if _is_siege_colossal(titan):
+			continue
 		if not titan.can_attack():
 			continue
 		var hit_anything := false
@@ -27,6 +29,12 @@ func _resolve_titan_attacks() -> void:
 			hit_anything = true
 		if hit_anything:
 			titan.consume_attack_cooldown()
+
+func _is_siege_colossal(titan: TitanUnit) -> bool:
+	return titan != null \
+		and titan.titan_type != null \
+		and titan.titan_type.behavior_profile != null \
+		and titan.titan_type.behavior_profile.behavior_kind == UnitBehaviorProfileResource.BehaviorKind.SIEGE_COLOSSAL
 
 func _resolve_defender_attacks() -> void:
 	for defender in registry.alive_defenders():

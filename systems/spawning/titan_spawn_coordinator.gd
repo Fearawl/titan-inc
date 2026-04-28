@@ -4,7 +4,9 @@ class_name TitanSpawnCoordinator
 @export var registry_path: NodePath
 @export var catalog_path: NodePath
 @export var battle_lane_path: NodePath
+@export var projectile_root_path: NodePath
 @export var titan_scene: PackedScene
+@export var boulder_projectile_scene: PackedScene
 @export var spawn_origin := Vector2(80.0, 420.0)
 @export var target_x := 2200.0
 
@@ -13,6 +15,7 @@ var _cooldowns: Dictionary = {}
 @onready var registry: BattleRegistry = get_node_or_null(registry_path) as BattleRegistry
 @onready var catalog: ContentCatalog = get_node_or_null(catalog_path) as ContentCatalog
 @onready var battle_lane: BattleLane = get_node_or_null(battle_lane_path) as BattleLane
+@onready var projectile_root: Node2D = get_node_or_null(projectile_root_path) as Node2D
 
 func _process(delta: float) -> void:
 	if registry == null or catalog == null or titan_scene == null:
@@ -43,6 +46,7 @@ func _try_spawn_titan(titan_type: TitanTypeResource) -> void:
 	unit.global_position = _next_spawn_position()
 	unit.configure_titan(titan_type, target_x)
 	unit.configure_behavior(registry, battle_lane)
+	unit.configure_projectiles(projectile_root, boulder_projectile_scene)
 	registry.register_titan(unit)
 	_cooldowns[titan_type.id] = maxf(titan_type.spawn_cooldown, 0.05)
 
