@@ -18,7 +18,10 @@ func _process(delta: float) -> void:
 	if registry == null or catalog == null or titan_scene == null:
 		return
 	for titan in registry.alive_titans():
-		titan.tick_movement(delta)
+		if titan.behavior_controller != null:
+			titan.behavior_controller.tick(delta)
+		else:
+			titan.tick_movement(delta)
 	_tick_cooldowns(delta)
 	for titan_type in catalog.titan_types.values():
 		_try_spawn_titan(titan_type as TitanTypeResource)
@@ -41,6 +44,7 @@ func _try_spawn_titan(titan_type: TitanTypeResource) -> void:
 	add_child(unit)
 	unit.global_position = _next_spawn_position()
 	unit.configure_titan(titan_type, target_x)
+	unit.configure_behavior(registry, battle_lane)
 	registry.register_titan(unit)
 	_cooldowns[titan_type.id] = maxf(titan_type.spawn_cooldown, 0.05)
 

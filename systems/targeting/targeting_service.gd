@@ -30,3 +30,20 @@ static func units_in_radius(origin: Vector2, radius: float, units: Array) -> Arr
 		if origin.distance_to(unit.global_position) <= clamped_radius:
 			result.append(unit)
 	return result
+
+static func nearest_unit_in_radius(origin: Vector2, radius: float, units: Array) -> CombatActor:
+	var nearest: CombatActor = null
+	var nearest_distance := INF
+	var clamped_radius := maxf(radius, 0.0)
+	for unit in units:
+		if not is_instance_valid(unit):
+			continue
+		if not unit is CombatActor:
+			continue
+		if unit.damageable == null or unit.damageable.dead:
+			continue
+		var distance := origin.distance_to(unit.global_position)
+		if distance <= clamped_radius and distance < nearest_distance:
+			nearest = unit
+			nearest_distance = distance
+	return nearest
