@@ -2,16 +2,18 @@
 
 ## Current Implementation Snapshot
 
-The first foundation package now contains a Godot 4.6 project skeleton, autoload services, custom Resource classes, generated first-pass content resources, a debug city scene, basic spawning, HP/damage/destruction, resource drops, debug army-limit purchases, and JSON save/load.
+The first foundation package contains a Godot 4.6 project skeleton, autoload services, custom Resource classes, generated first-pass content resources, a debug city scene, basic spawning, HP/damage/destruction, resource drops, debug army-limit purchases, and JSON save/load.
 
 The current visual layer uses simple rectangle actors and structures. These are temporary presentation assets; gameplay values still come from Resource data.
+
+The next approved package is Battlefield Behavior. It adds a central battle lane, randomized titan spawn within that lane, data-driven titan and defender behavior profiles, road/defense-slot based defender movement, archer projectiles, and colossal boulder siege behavior. Detailed design: `docs/superpowers/specs/2026-04-28-battlefield-behavior-design.md`.
 
 Дата фиксации: 2026-04-27  
 Цель: быстрый вход нового исполнителя в проект
 
 ## 1. Текущее состояние
 
-Репозиторий стартует с документационной базы. Godot project skeleton и игровые системы еще не созданы.
+Репозиторий содержит первый foundation package: Godot project skeleton, autoload-сервисы, Resource-модель, стартовый content pack, debug city scene, базовый спавн, бой, разрушение, ремонт, ресурсы, debug-покупки лимитов и save/load.
 
 Утверждено:
 
@@ -154,17 +156,15 @@ Prestige открывается после первого убийства ге�
 
 ## 8. Следующий практический шаг
 
-После ревью документации нужно перейти к implementation plan. Первый пакет разработки:
+Следующий пакет разработки - Battlefield Behavior:
 
-1. Создать Godot project skeleton.
-2. Добавить autoload-сервисы.
-3. Добавить core Resource-классы.
-4. Создать стартовый content pack.
-5. Реализовать простой save/load.
-6. Реализовать базовый спавн титанов и защитников.
-7. Реализовать HP/damage/destruction.
-8. Реализовать горизонтальное движение и defense positions.
-9. Реализовать начисление ресурсов и покупку лимитов.
-10. Поддерживать документацию по факту изменений.
+1. Ввести battle lane как центральную боевую полосу.
+2. Рандомизировать спавн титанов внутри battle lane.
+3. Добавить data-driven behavior profiles для типов титанов и защитников.
+4. Разделить поведение мелкого/базового, бегуна/бронированного и колоссального титанов.
+5. Добавить road lane, defense slots, tower garrison slots и ambush slots для защитников.
+6. Реализовать навесные стрелы лучников и бонус дальности на башнях.
+7. Реализовать камень колоссального титана как отдельный projectile.
+8. Обновить документацию и проверку запуска Godot.
 
-Перед началом кода нужен отдельный implementation plan.
+Перед началом кода нужен отдельный implementation plan на основе `docs/superpowers/specs/2026-04-28-battlefield-behavior-design.md`.
