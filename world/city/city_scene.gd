@@ -44,6 +44,7 @@ func _spawn_structure(structure_type: StructureTypeResource) -> void:
 	structures_root.add_child(structure)
 	structure.configure_structure(structure_type)
 	registry.register_structure(structure)
+	_connect_structure_destroyed_to_defense_slots(structure)
 
 func _on_save_loaded() -> void:
 	for child in structures_root.get_children():
@@ -53,3 +54,11 @@ func _on_save_loaded() -> void:
 		if GameState.structure_hp.has(structure.structure_type.id):
 			structure.restore_saved_hp(float(GameState.structure_hp[structure.structure_type.id]))
 		registry.register_structure(structure)
+		_connect_structure_destroyed_to_defense_slots(structure)
+
+func _connect_structure_destroyed_to_defense_slots(structure: DestructibleStructure) -> void:
+	if structure == null or defense_slot_coordinator == null:
+		return
+	var destroyed_handler := Callable(defense_slot_coordinator, "handle_structure_destroyed")
+	if not structure.destroyed.is_connected(destroyed_handler):
+		structure.destroyed.connect(destroyed_handler)

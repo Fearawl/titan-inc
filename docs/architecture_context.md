@@ -8,6 +8,22 @@ The current visual layer uses simple rectangle actors and structures. These are 
 
 The next approved package is Battlefield Behavior. It adds a central battle lane, randomized titan spawn within that lane, data-driven titan and defender behavior profiles, road/defense-slot based defender movement, archer projectiles, and colossal boulder siege behavior. Detailed design: `docs/superpowers/specs/2026-04-28-battlefield-behavior-design.md`.
 
+## Battlefield Behavior Status - 2026-04-28
+
+Implemented:
+
+- `RoadLane` is the central battle lane used by titan spawning and defender fallback movement.
+- Titan behavior is data-driven through `UnitBehaviorProfileResource` and runtime controllers, including fighter push, runner/armored variants, and colossal siege boulder behavior.
+- Defender behavior is routed through `DefenderBehaviorController`; melee defenders hold their assigned slot and ranged archers fire projectile arrows instead of applying direct resolver damage.
+- Defense slots are generated as `DefenseSlotResource` content and claimed through `DefenseSlotCoordinator`. Tower garrison slots are generated with `slot_type = TOWER_GARRISON`, `range_multiplier = 2.0`, and an `anchor_structure_id`.
+- `DefenderBehaviorController.effective_attack_range()` multiplies the unit attack radius/range by the assigned slot `range_multiplier`, so tower garrison assignments receive the intended 2x range bonus from slot data.
+- `DefenseSlotCoordinator` now tracks occupied defenders by slot and anchor structure. When a spawned structure emits `destroyed`, the city scene forwards it to the coordinator so defenders in slots anchored to that structure take one fall-damage hit, clear their tower assignment, and resume ground fallback behavior.
+
+Current MVP limits:
+
+- Fall damage uses `DefenseSlotCoordinator.tower_fall_damage` until structure collapse damage profiles are wired into unit damage.
+- Fallen tower defenders re-home to the road lane at their current x-position; full tower climb/fall animation and debris presentation remain future polish.
+
 Дата фиксации: 2026-04-27  
 Цель: быстрый вход нового исполнителя в проект
 

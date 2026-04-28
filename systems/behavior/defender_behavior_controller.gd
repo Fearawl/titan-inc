@@ -12,6 +12,8 @@ var current_target: TitanUnit
 var projectile_root: Node2D
 var arrow_scene: PackedScene
 
+const DEFAULT_LEASH_RADIUS := 220.0
+
 func configure(owner_unit: DefenderUnit, battle_registry: BattleRegistry, lane: RoadLane, slot_payload: Dictionary) -> void:
 	unit = owner_unit
 	registry = battle_registry
@@ -34,6 +36,20 @@ func configure(owner_unit: DefenderUnit, battle_registry: BattleRegistry, lane: 
 func configure_projectiles(root: Node2D, arrow_projectile_scene: PackedScene) -> void:
 	projectile_root = root
 	arrow_scene = arrow_projectile_scene
+
+func clear_slot_assignment() -> void:
+	assigned_slot_id = &""
+	range_multiplier = 1.0
+	leash_radius = DEFAULT_LEASH_RADIUS
+	current_target = null
+	var fallback_position := unit.global_position if unit != null else Vector2.ZERO
+	# MVP fallback: fallen tower defenders rejoin ground behavior on the road lane.
+	if road_lane != null and unit != null:
+		fallback_position = road_lane.point_at_x(unit.global_position.x)
+	assigned_slot_position = fallback_position
+	if unit != null:
+		unit.assigned_position = fallback_position
+		unit.target_x = fallback_position.x
 
 func tick(delta: float) -> void:
 	if unit == null or registry == null or unit.damageable == null or unit.damageable.dead or unit.stats == null:

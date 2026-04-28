@@ -193,10 +193,19 @@ Implemented in the first technical package:
 - Debug resource granting and army-limit purchases.
 - JSON save/load for core `GameState`.
 
+Battlefield Behavior implemented through Task 8:
+
+- Central road lane and randomized titan lane spawning.
+- Data-driven titan and defender behavior profiles with runtime controllers.
+- Fighter, runner, armored, and colossal titan behavior, including colossal boulder projectile siege attacks.
+- Defender defense slots, including tower garrison slots with `range_multiplier = 2.0`.
+- Archer projectile arrows and range calculation through `DefenderBehaviorController.effective_attack_range()`.
+- Tower destruction handling that releases defenders occupying slots anchored to the destroyed structure, applies one fall-damage hit, clears the tower slot assignment, and returns them to road-lane fallback behavior.
+
 Remaining vertical-slice work:
 
 - Final UI/UX.
 - Real pixel art and animation.
 - Full balance pass for 2-3 hour first city pacing.
 - Cursor boost visualization and meta-upgrade table.
-- More complete tower climbing, formation, collapse debris, and zone completion polish.
+- More complete tower climbing animation, formation polish, collapse debris, and zone completion polish.

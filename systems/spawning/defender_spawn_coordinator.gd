@@ -25,7 +25,6 @@ const DEFENSE_POSITIONS := [
 
 var _cooldown := 0.0
 var _hero_spawned := false
-var _claimed_slot_by_unit: Dictionary = {}
 
 @onready var registry: BattleRegistry = get_node_or_null(registry_path) as BattleRegistry
 @onready var catalog: ContentCatalog = get_node_or_null(catalog_path) as ContentCatalog
@@ -69,15 +68,13 @@ func _spawn_defender(defender_type: DefenderTypeResource) -> void:
 	add_child(unit)
 	var slot_payload := {}
 	if defense_slot_coordinator != null:
-		slot_payload = defense_slot_coordinator.claim_slot(defender_type)
+		slot_payload = defense_slot_coordinator.claim_slot(defender_type, unit)
 	var position: Vector2 = slot_payload["position"] if slot_payload.has("position") else DEFENSE_POSITIONS[randi() % DEFENSE_POSITIONS.size()]
 	unit.global_position = road_lane.point_at_x(spawn_origin.x) if road_lane != null else spawn_origin
 	unit.configure_defender(defender_type, position)
 	unit.configure_behavior(registry, road_lane, slot_payload)
 	unit.configure_projectiles(projectile_root, arrow_projectile_scene)
 	if defense_slot_coordinator != null and slot_payload.has("id"):
-		var slot_id: StringName = slot_payload["id"]
-		_claimed_slot_by_unit[unit] = slot_id
 		unit.defeated.connect(_on_defender_slot_released.bind(unit), CONNECT_ONE_SHOT)
 		unit.tree_exiting.connect(_on_defender_tree_exiting.bind(unit), CONNECT_ONE_SHOT)
 	registry.register_defender(unit)
@@ -89,9 +86,6 @@ func _on_defender_tree_exiting(unit: DefenderUnit) -> void:
 	_release_claimed_slot(unit)
 
 func _release_claimed_slot(unit: DefenderUnit) -> void:
-	if unit == null or not _claimed_slot_by_unit.has(unit):
+	if unit == null or defense_slot_coordinator == null:
 		return
-	var slot_id: StringName = _claimed_slot_by_unit[unit]
-	_claimed_slot_by_unit.erase(unit)
-	if defense_slot_coordinator != null:
-		defense_slot_coordinator.release_slot(slot_id)
+	defense_slot_coordinator.release_defender(unit)
