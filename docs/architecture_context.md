@@ -2,7 +2,7 @@
 
 ## Current Implementation Snapshot
 
-The first foundation package contains a Godot 4.6 project skeleton, autoload services, custom Resource classes, generated first-pass content resources, a debug city scene, basic spawning, HP/damage/destruction, resource drops, debug army-limit purchases, JSON save/load, and cursor boost foundation.
+The first foundation package contains a Godot 4.6 project skeleton, autoload services, custom Resource classes, generated first-pass content resources, a debug city scene, basic spawning, HP/damage/destruction, resource drops, debug army-limit and run stat-upgrade purchases, JSON save/load, and cursor boost foundation.
 
 The current visual layer uses simple rectangle actors and structures. These are temporary presentation assets; gameplay values still come from Resource data.
 
@@ -38,6 +38,22 @@ Current MVP limits:
 
 - Cursor boost only affects titan damage.
 - Meta upgrades for attack speed, movement speed, destruction radius, and cursor radius remain future work.
+
+## Run Stat Upgrade Foundation Status - 2026-04-28
+
+Implemented:
+
+- `StatUpgradeResource` defines data-driven run upgrades for titan damage, attack rate, move speed, and attack radius using Godot Resource data.
+- `ContentCatalog` loads generated stat upgrades from `content/upgrades`.
+- `GameState.upgrade_levels` remains the save/reset storage for run-upgrade levels, with helper accessors for purchase code.
+- `UpgradeService` handles purchase checks, payment, level increments, and live stat application without calling `SaveService`.
+- Titan spawn applies matching run upgrades after `configure_titan()` by rebuilding runtime stats from `TitanTypeResource.base_stats.duplicate_stats()`, leaving base resource stats unmutated.
+- Debug purchase keys `6-9` buy the four generated global titan upgrades and immediately reapply them to alive titans.
+
+Current MVP limits:
+
+- There is no final upgrade UI yet; debug HUD keys are temporary verification controls.
+- Upgrade balance is first-pass generated content and still needs a vertical-slice pacing pass.
 
 Дата фиксации: 2026-04-27  
 Цель: быстрый вход нового исполнителя в проект

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="StatUpgradeResource" format=3]
+
+[ext_resource type="Script" path="res://core/economy/cost_resource.gd" id="1_5jtrf"]
+[ext_resource type="Script" path="res://core/math/progression_formula_resource.gd" id="2_lnrh4"]
+[ext_resource type="Script" path="res://content/upgrades/stat_upgrade_resource.gd" id="3_2vywq"]
+
+[sub_resource type="Resource" id="Resource_74obq"]
+script = ExtResource("1_5jtrf")
+amounts = {
+"meat": 150.0,
+"metal": 5.0
+}
+
+[sub_resource type="Resource" id="Resource_cl1vu"]
+script = ExtResource("2_lnrh4")
+
+[resource]
+script = ExtResource("3_2vywq")
+id = &"titan_attack_rate_global"
+display_name = "Titan Attack Speed"
+target_stat = 1
+multiplier_per_level = 0.1
+base_cost = SubResource("Resource_74obq")
+cost_formula = SubResource("Resource_cl1vu")

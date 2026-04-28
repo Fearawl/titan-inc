@@ -45,6 +45,7 @@ func _try_spawn_titan(titan_type: TitanTypeResource) -> void:
 	add_child(unit)
 	unit.global_position = _next_spawn_position()
 	unit.configure_titan(titan_type, target_x)
+	UpgradeService.apply_titan_run_upgrades(unit, catalog)
 	unit.configure_behavior(registry, battle_lane)
 	unit.configure_projectiles(projectile_root, boulder_projectile_scene)
 	registry.register_titan(unit)

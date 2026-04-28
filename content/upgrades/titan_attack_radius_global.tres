@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="StatUpgradeResource" format=3]
+
+[ext_resource type="Script" path="res://core/economy/cost_resource.gd" id="1_tnffa"]
+[ext_resource type="Script" path="res://core/math/progression_formula_resource.gd" id="2_42si4"]
+[ext_resource type="Script" path="res://content/upgrades/stat_upgrade_resource.gd" id="3_y7lh8"]
+
+[sub_resource type="Resource" id="Resource_uoy85"]
+script = ExtResource("1_tnffa")
+amounts = {
+"metal": 10.0,
+"stone": 100.0
+}
+
+[sub_resource type="Resource" id="Resource_olr0w"]
+script = ExtResource("2_42si4")
+
+[resource]
+script = ExtResource("3_y7lh8")
+id = &"titan_attack_radius_global"
+display_name = "Titan Destruction Radius"
+target_stat = 3
+additive_per_level = 4.0
+base_cost = SubResource("Resource_uoy85")
+cost_formula = SubResource("Resource_olr0w")

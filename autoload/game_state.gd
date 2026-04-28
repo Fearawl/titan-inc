@@ -90,6 +90,14 @@ func increase_army_limit(titan_id: StringName, amount := 1) -> void:
 	army_limits[titan_id] = clampi(get_army_limit(titan_id) + amount, 0, 100)
 	SignalBus.game_state_changed.emit()
 
+func get_upgrade_level(upgrade_id: StringName) -> int:
+	return int(upgrade_levels.get(upgrade_id, 0))
+
+func increase_upgrade_level(upgrade_id: StringName, amount := 1, max_level := -1) -> void:
+	var upper_bound := max_level if max_level >= 0 else 2147483647
+	upgrade_levels[upgrade_id] = clampi(get_upgrade_level(upgrade_id) + amount, 0, upper_bound)
+	SignalBus.game_state_changed.emit()
+
 func mark_hero_defeated(hero_id: StringName) -> void:
 	defeated_heroes[hero_id] = true
 	prestige_available = true

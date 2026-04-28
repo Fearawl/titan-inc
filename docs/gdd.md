@@ -155,6 +155,8 @@ Implementation note 2026-04-28: cursor boost foundation is implemented for titan
 
 ## 12. Экономика армии
 
+Implementation note 2026-04-28: run stat-upgrade foundation is implemented through generated `StatUpgradeResource` assets and `GameState.upgrade_levels`. The current temporary DebugHud buys global titan damage, attack speed, movement speed, and destruction-radius upgrades with keys `6-9`; the final upgrade UI and balance pass remain future work.
+
 Стартовые цены расширения лимита:
 
 | Тип | Условие | Цена следующего лимита |

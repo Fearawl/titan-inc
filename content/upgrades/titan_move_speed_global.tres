@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="StatUpgradeResource" format=3]
+
+[ext_resource type="Script" path="res://core/economy/cost_resource.gd" id="1_recve"]
+[ext_resource type="Script" path="res://core/math/progression_formula_resource.gd" id="2_c5r7c"]
+[ext_resource type="Script" path="res://content/upgrades/stat_upgrade_resource.gd" id="3_ukiln"]
+
+[sub_resource type="Resource" id="Resource_ntuwm"]
+script = ExtResource("1_recve")
+amounts = {
+"meat": 125.0,
+"stone": 15.0
+}
+
+[sub_resource type="Resource" id="Resource_8avbu"]
+script = ExtResource("2_c5r7c")
+
+[resource]
+script = ExtResource("3_ukiln")
+id = &"titan_move_speed_global"
+display_name = "Titan Movement Speed"
+target_stat = 2
+multiplier_per_level = 0.08
+base_cost = SubResource("Resource_ntuwm")
+cost_formula = SubResource("Resource_8avbu")

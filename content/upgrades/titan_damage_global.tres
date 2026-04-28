@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="StatUpgradeResource" format=3]
+
+[ext_resource type="Script" path="res://core/economy/cost_resource.gd" id="1_fk7fe"]
+[ext_resource type="Script" path="res://core/math/progression_formula_resource.gd" id="2_gtl3t"]
+[ext_resource type="Script" path="res://content/upgrades/stat_upgrade_resource.gd" id="3_gvvo2"]
+
+[sub_resource type="Resource" id="Resource_ngjxy"]
+script = ExtResource("1_fk7fe")
+amounts = {
+"meat": 100.0,
+"stone": 10.0
+}
+
+[sub_resource type="Resource" id="Resource_me2hr"]
+script = ExtResource("2_gtl3t")
+
+[resource]
+script = ExtResource("3_gvvo2")
+id = &"titan_damage_global"
+display_name = "Titan Damage"
+multiplier_per_level = 0.15
+base_cost = SubResource("Resource_ngjxy")
+cost_formula = SubResource("Resource_me2hr")

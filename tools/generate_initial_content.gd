@@ -9,6 +9,7 @@ const DefenseSlotResourceScript := preload("res://world/defense_positions/defens
 const UnitBehaviorProfileResource := preload("res://content/behaviors/unit_behavior_profile_resource.gd")
 const ProjectileProfileResource := preload("res://content/projectiles/projectile_profile_resource.gd")
 const CursorBoostProfileResourceScript := preload("res://content/player/cursor_boost_profile_resource.gd")
+const StatUpgradeResourceScript := preload("res://content/upgrades/stat_upgrade_resource.gd")
 
 const PROJECTILE_ARROW := 0
 const PROJECTILE_BOULDER := 1
@@ -27,6 +28,7 @@ func _init() -> void:
 	_save_projectiles()
 	_save_cursor_boost_profiles()
 	_save_behaviors()
+	_save_stat_upgrades()
 	_save_titans()
 	_save_defenders()
 	_save_structures()
@@ -41,6 +43,7 @@ func _prepare_output_directories() -> bool:
 		"res://content/behaviors",
 		"res://content/projectiles",
 		"res://content/player",
+		"res://content/upgrades",
 		"res://content/structures",
 		"res://content/defense_slots",
 		"res://content/zones",
@@ -170,6 +173,26 @@ func _save_cursor_boost_profiles() -> void:
 	profile.fill_color = Color(0.2, 0.75, 1.0, 0.12)
 	profile.outline_color = Color(0.35, 0.9, 1.0, 0.85)
 	_save("res://content/player/%s.tres" % String(profile.id), profile)
+
+func _save_stat_upgrades() -> void:
+	var data := [
+		[&"titan_damage_global", "Titan Damage", StatUpgradeResourceScript.TargetStat.DAMAGE, {"meat": 100.0, "stone": 10.0}, 0.15, 0.0],
+		[&"titan_attack_rate_global", "Titan Attack Speed", StatUpgradeResourceScript.TargetStat.ATTACK_RATE, {"meat": 150.0, "metal": 5.0}, 0.10, 0.0],
+		[&"titan_move_speed_global", "Titan Movement Speed", StatUpgradeResourceScript.TargetStat.MOVE_SPEED, {"meat": 125.0, "stone": 15.0}, 0.08, 0.0],
+		[&"titan_attack_radius_global", "Titan Destruction Radius", StatUpgradeResourceScript.TargetStat.ATTACK_RADIUS, {"stone": 100.0, "metal": 10.0}, 0.0, 4.0],
+	]
+	for row in data:
+		var upgrade: Resource = StatUpgradeResourceScript.new()
+		upgrade.id = row[0]
+		upgrade.display_name = row[1]
+		upgrade.target_stat = row[2]
+		upgrade.scope = StatUpgradeResourceScript.Scope.ALL_TITANS
+		upgrade.max_level = 100
+		upgrade.base_cost = _cost(row[3])
+		upgrade.cost_formula = _formula()
+		upgrade.multiplier_per_level = row[4]
+		upgrade.additive_per_level = row[5]
+		_save("res://content/upgrades/%s.tres" % String(upgrade.id), upgrade)
 
 func _save_behaviors() -> void:
 	var data := [

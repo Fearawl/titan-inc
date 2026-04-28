@@ -208,10 +208,17 @@ Cursor Boost Foundation implemented:
 - The city scene applies a transient titan damage multiplier inside the cursor radius before combat damage resolves.
 - Radius visualization is present as a temporary debug circle.
 
+Run Stat Upgrade Foundation implemented:
+
+- Generated `StatUpgradeResource` content provides global titan upgrades for damage, attack speed, movement speed, and destruction radius.
+- Purchases use saved `GameState.upgrade_levels`, run costs, and existing currency payment.
+- Spawned titans and currently alive titans receive upgraded runtime stats without mutating base titan resources.
+- Temporary DebugHud keys `6-9` buy stat upgrades until the final upgrade UI exists.
+
 Remaining vertical-slice work:
 
 - Final UI/UX.
 - Real pixel art and animation.
 - Full balance pass for 2-3 hour first city pacing.
-- Cursor boost visual polish and meta-upgrade table.
+- Upgrade UI polish, cursor boost visual polish, and meta-upgrade table.
 - More complete tower climbing animation, formation polish, collapse debris, and zone completion polish.
