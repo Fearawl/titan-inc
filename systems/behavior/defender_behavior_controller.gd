@@ -16,15 +16,17 @@ func configure(owner_unit: DefenderUnit, battle_registry: BattleRegistry, lane: 
 	road_lane = lane
 	if slot_payload.has("id"):
 		assigned_slot_id = slot_payload["id"]
+	var has_slot_position := false
 	if slot_payload.has("position"):
 		assigned_slot_position = slot_payload["position"]
+		has_slot_position = true
 	else:
 		assigned_slot_position = unit.assigned_position if unit != null else Vector2.ZERO
 	if slot_payload.has("range_multiplier"):
 		range_multiplier = float(slot_payload["range_multiplier"])
 	if slot_payload.has("leash_radius"):
 		leash_radius = float(slot_payload["leash_radius"])
-	if assigned_slot_position == Vector2.ZERO and unit != null:
+	if not has_slot_position and assigned_slot_position == Vector2.ZERO and unit != null:
 		assigned_slot_position = unit.assigned_position
 
 func tick(delta: float) -> void:
@@ -68,11 +70,10 @@ func _tick_melee_defender(delta: float) -> void:
 	_move_toward(delta, current_target.global_position)
 
 func _tick_ranged_archer(delta: float) -> void:
-	if unit.global_position.distance_to(assigned_slot_position) > 4.0:
-		current_target = null
-		_move_to_slot(delta)
-		return
 	current_target = _nearest_titan_in_attack_range()
+	if current_target != null:
+		return
+	_move_to_slot(delta)
 
 func _nearest_titan_in_vision_and_leash() -> TitanUnit:
 	var nearest: TitanUnit = null
