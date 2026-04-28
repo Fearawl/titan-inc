@@ -30,13 +30,32 @@ func _nearest_blocking_structure() -> DestructibleStructure:
 	return TargetingService.nearest_structure_in_front(unit, registry.alive_structures())
 
 func _nearest_melee_defender() -> DefenderUnit:
-	return TargetingService.nearest_unit_in_radius(unit.global_position, unit.stats.attack_radius, registry.alive_defenders()) as DefenderUnit
+	var nearest: DefenderUnit = null
+	var nearest_distance := INF
+	var clamped_radius := maxf(unit.stats.attack_radius, 0.0)
+	for defender in registry.alive_defenders():
+		if not _is_melee_defender(defender):
+			continue
+		var distance := unit.global_position.distance_to(defender.global_position)
+		if distance <= clamped_radius and distance < nearest_distance:
+			nearest = defender
+			nearest_distance = distance
+	return nearest
+
+func _is_melee_defender(defender: DefenderUnit) -> bool:
+	if defender == null:
+		return false
+	if defender.defender_type != null and defender.defender_type.behavior_profile != null:
+		return defender.defender_type.behavior_profile.behavior_kind == UnitBehaviorProfileResource.BehaviorKind.MELEE_DEFENDER
+	if defender.stats == null:
+		return false
+	return defender.stats.attack_range <= 0.0
 
 func _tick_fighter(delta: float) -> void:
 	var blocking_structure := _nearest_blocking_structure()
 	if blocking_structure != null and unit.global_position.distance_to(blocking_structure.global_position) <= unit.stats.attack_radius:
 		return
-	# Fighter titans stop for melee defenders so CombatResolver can trade blows in place.
+	# Ranged defenders can shoot without body-blocking fighter titan movement.
 	if _nearest_melee_defender() != null:
 		return
 	_move_forward(delta)
