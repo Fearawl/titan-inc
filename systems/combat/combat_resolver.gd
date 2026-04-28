@@ -19,12 +19,12 @@ func _resolve_titan_attacks() -> void:
 			continue
 		var hit_anything := false
 		for defender in TargetingService.units_in_radius(titan.global_position, titan.stats.attack_radius, registry.alive_defenders()):
-			var roll := titan.damage_profile.roll_damage(titan.stats.damage, false)
+			var roll := titan.damage_profile.roll_damage(titan.effective_damage(), false)
 			defender.damageable.apply_damage(float(roll["amount"]), titan.actor_id)
 			hit_anything = true
 		var target_structure := TargetingService.nearest_structure_in_front(titan, registry.alive_structures())
 		if target_structure != null and titan.global_position.distance_to(target_structure.global_position) <= titan.stats.attack_radius:
-			var roll := titan.damage_profile.roll_damage(titan.stats.damage, true)
+			var roll := titan.damage_profile.roll_damage(titan.effective_damage(), true)
 			target_structure.apply_damage(float(roll["amount"]), titan.actor_id)
 			hit_anything = true
 		if hit_anything:
@@ -51,7 +51,7 @@ func _resolve_defender_attacks() -> void:
 		var target: TitanUnit = targets[0] as TitanUnit
 		if target == null:
 			continue
-		var roll := defender.damage_profile.roll_damage(defender.stats.damage, false)
+		var roll := defender.damage_profile.roll_damage(defender.effective_damage(), false)
 		target.damageable.apply_damage(float(roll["amount"]), defender.actor_id)
 		defender.consume_attack_cooldown()
 

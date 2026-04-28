@@ -8,6 +8,7 @@ const ZoneResourceScript := preload("res://content/zones/zone_resource.gd")
 const DefenseSlotResourceScript := preload("res://world/defense_positions/defense_slot_resource.gd")
 const UnitBehaviorProfileResource := preload("res://content/behaviors/unit_behavior_profile_resource.gd")
 const ProjectileProfileResource := preload("res://content/projectiles/projectile_profile_resource.gd")
+const CursorBoostProfileResourceScript := preload("res://content/player/cursor_boost_profile_resource.gd")
 
 const PROJECTILE_ARROW := 0
 const PROJECTILE_BOULDER := 1
@@ -24,6 +25,7 @@ func _init() -> void:
 		_finish()
 		return
 	_save_projectiles()
+	_save_cursor_boost_profiles()
 	_save_behaviors()
 	_save_titans()
 	_save_defenders()
@@ -38,6 +40,7 @@ func _prepare_output_directories() -> bool:
 		"res://content/defenders",
 		"res://content/behaviors",
 		"res://content/projectiles",
+		"res://content/player",
 		"res://content/structures",
 		"res://content/defense_slots",
 		"res://content/zones",
@@ -157,6 +160,16 @@ func _save_projectiles() -> void:
 		projectile.roll_distance = row[6]
 		projectile.lifetime = row[7]
 		_save("res://content/projectiles/%s.tres" % String(projectile.id), projectile)
+
+func _save_cursor_boost_profiles() -> void:
+	var profile: Resource = CursorBoostProfileResourceScript.new()
+	profile.id = &"cursor_boost_default"
+	profile.radius = 96.0
+	profile.damage_multiplier = 1.5
+	profile.debug_visible = true
+	profile.fill_color = Color(0.2, 0.75, 1.0, 0.12)
+	profile.outline_color = Color(0.35, 0.9, 1.0, 0.85)
+	_save("res://content/player/%s.tres" % String(profile.id), profile)
 
 func _save_behaviors() -> void:
 	var data := [

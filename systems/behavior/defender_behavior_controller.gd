@@ -111,7 +111,7 @@ func _fire_arrow(target: TitanUnit) -> bool:
 	var projectile := arrow_scene.instantiate() as Projectile
 	if projectile == null:
 		return false
-	var roll := unit.damage_profile.roll_damage(unit.stats.damage, false)
+	var roll := unit.damage_profile.roll_damage(unit.effective_damage(), false)
 	projectile.registry = registry
 	projectile.configure(unit, target, projectile_profile, float(roll["amount"]))
 	projectile_root.add_child(projectile)

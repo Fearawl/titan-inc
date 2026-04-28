@@ -8,6 +8,7 @@ const ZoneResourceScript := preload("res://content/zones/zone_resource.gd")
 const DefenseSlotResourceScript := preload("res://world/defense_positions/defense_slot_resource.gd")
 const UnitBehaviorProfileResource := preload("res://content/behaviors/unit_behavior_profile_resource.gd")
 const ProjectileProfileResource := preload("res://content/projectiles/projectile_profile_resource.gd")
+const CursorBoostProfileResourceScript := preload("res://content/player/cursor_boost_profile_resource.gd")
 
 var titan_types: Dictionary = {}
 var defender_types: Dictionary = {}
@@ -16,6 +17,7 @@ var zones: Dictionary = {}
 var defense_slots: Dictionary = {}
 var behavior_profiles: Dictionary = {}
 var projectile_profiles: Dictionary = {}
+var cursor_boost_profiles: Dictionary = {}
 
 func _ready() -> void:
 	load_all()
@@ -28,6 +30,7 @@ func load_all() -> void:
 	defense_slots = _load_resources("res://content/defense_slots", DefenseSlotResourceScript)
 	behavior_profiles = _load_resources("res://content/behaviors", UnitBehaviorProfileResource)
 	projectile_profiles = _load_resources("res://content/projectiles", ProjectileProfileResource)
+	cursor_boost_profiles = _load_resources("res://content/player", CursorBoostProfileResourceScript)
 
 func get_titan(id: StringName) -> TitanTypeResource:
 	return titan_types.get(id) as TitanTypeResource
@@ -46,6 +49,9 @@ func get_behavior_profile(id: StringName) -> UnitBehaviorProfileResource:
 
 func get_projectile_profile(id: StringName) -> ProjectileProfileResource:
 	return projectile_profiles.get(id) as ProjectileProfileResource
+
+func get_cursor_boost_profile(id: StringName) -> CursorBoostProfileResource:
+	return cursor_boost_profiles.get(id) as CursorBoostProfileResource
 
 func _load_resources(path: String, expected_script: Script) -> Dictionary:
 	var result := {}

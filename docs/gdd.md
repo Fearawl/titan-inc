@@ -124,6 +124,8 @@
 
 ## 10. Курсор игрока
 
+Implementation note 2026-04-28: cursor boost foundation is implemented for titan damage via transient runtime modifiers and a generated profile Resource. Meta-upgrade scaling and final visual polish are still future work.
+
 Курсор постоянно усиливает союзных титанов в радиусе.
 
 Базовое усиление:

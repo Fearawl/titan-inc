@@ -93,13 +93,13 @@ func _perform_siege_melee(blocking_structure: DestructibleStructure) -> void:
 	if unit == null or unit.damage_profile == null or unit.stats == null:
 		return
 	if blocking_structure != null:
-		var structure_roll := unit.damage_profile.roll_damage(unit.stats.damage, true)
+		var structure_roll := unit.damage_profile.roll_damage(unit.effective_damage(), true)
 		blocking_structure.apply_damage(float(structure_roll["amount"]), unit.actor_id)
 	for defender in TargetingService.units_in_radius(unit.global_position, unit.stats.attack_radius, registry.alive_defenders()):
 		var typed := defender as DefenderUnit
 		if typed == null or typed.damageable == null:
 			continue
-		var unit_roll := unit.damage_profile.roll_damage(unit.stats.damage, false)
+		var unit_roll := unit.damage_profile.roll_damage(unit.effective_damage(), false)
 		typed.damageable.apply_damage(float(unit_roll["amount"]), unit.actor_id)
 
 func _throw_boulder() -> bool:
@@ -112,7 +112,7 @@ func _throw_boulder() -> bool:
 	if projectile == null:
 		return false
 	projectile.registry = registry
-	projectile.configure_to_position(unit, _boulder_target_position(profile), profile, unit.stats.damage * profile.damage_multiplier)
+	projectile.configure_to_position(unit, _boulder_target_position(profile), profile, unit.effective_damage() * profile.damage_multiplier)
 	projectile_root.add_child(projectile)
 	return true
 

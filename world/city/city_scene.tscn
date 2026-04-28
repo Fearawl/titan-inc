@@ -1,10 +1,11 @@
-[gd_scene load_steps=19 format=3]
+[gd_scene load_steps=20 format=3]
 
 [ext_resource type="Script" path="res://world/city/city_scene.gd" id="1_city"]
 [ext_resource type="PackedScene" path="res://structures/destructible/destructible_structure.tscn" id="2_structure"]
 [ext_resource type="Script" path="res://content/catalogs/content_catalog.gd" id="3_catalog"]
 [ext_resource type="Script" path="res://systems/combat/battle_registry.gd" id="4_registry"]
 [ext_resource type="Script" path="res://systems/combat/combat_resolver.gd" id="5_resolver"]
+[ext_resource type="Script" path="res://systems/player/cursor_boost_controller.gd" id="6_cursor_boost"]
 [ext_resource type="Script" path="res://systems/spawning/titan_spawn_coordinator.gd" id="6_titan_spawn"]
 [ext_resource type="PackedScene" path="res://actors/titan/titan_unit.tscn" id="7_titan"]
 [ext_resource type="Script" path="res://systems/spawning/defender_spawn_coordinator.gd" id="8_defender_spawn"]
@@ -28,6 +29,11 @@ script = ExtResource("3_catalog")
 
 [node name="BattleRegistry" type="Node" parent="."]
 script = ExtResource("4_registry")
+
+[node name="CursorBoostController" type="Node2D" parent="."]
+script = ExtResource("6_cursor_boost")
+registry_path = NodePath("../BattleRegistry")
+catalog_path = NodePath("../ContentCatalog")
 
 [node name="CombatResolver" type="Node" parent="."]
 script = ExtResource("5_resolver")

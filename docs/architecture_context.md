@@ -2,7 +2,7 @@
 
 ## Current Implementation Snapshot
 
-The first foundation package contains a Godot 4.6 project skeleton, autoload services, custom Resource classes, generated first-pass content resources, a debug city scene, basic spawning, HP/damage/destruction, resource drops, debug army-limit purchases, and JSON save/load.
+The first foundation package contains a Godot 4.6 project skeleton, autoload services, custom Resource classes, generated first-pass content resources, a debug city scene, basic spawning, HP/damage/destruction, resource drops, debug army-limit purchases, JSON save/load, and cursor boost foundation.
 
 The current visual layer uses simple rectangle actors and structures. These are temporary presentation assets; gameplay values still come from Resource data.
 
@@ -23,6 +23,21 @@ Current MVP limits:
 
 - Fall damage uses `DefenseSlotCoordinator.tower_fall_damage` until structure collapse damage profiles are wired into unit damage.
 - Fallen tower defenders re-home to the road lane at their current x-position; full tower climb/fall animation and debris presentation remain future polish.
+
+## Cursor Boost Foundation Status - 2026-04-28
+
+Implemented:
+
+- `UnitRuntimeModifiers` stores transient per-unit combat modifiers without mutating duplicated `stats`.
+- `CombatActor.effective_damage()` applies runtime modifiers to base `stats.damage`; combat, siege melee, boulder, and arrow damage now read effective damage.
+- `CursorBoostProfileResource` is generated under `content/player` and loaded through `ContentCatalog`.
+- `CursorBoostController` resets titan cursor damage modifiers and reapplies the active cursor multiplier each frame before `CombatResolver` in `city_scene.tscn`.
+- Temporary radius presentation draws a minimal world-space circle around the cursor.
+
+Current MVP limits:
+
+- Cursor boost only affects titan damage.
+- Meta upgrades for attack speed, movement speed, destruction radius, and cursor radius remain future work.
 
 Дата фиксации: 2026-04-27  
 Цель: быстрый вход нового исполнителя в проект

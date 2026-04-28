@@ -202,10 +202,16 @@ Battlefield Behavior implemented through Task 8:
 - Archer projectile arrows and range calculation through `DefenderBehaviorController.effective_attack_range()`.
 - Tower destruction handling that releases defenders occupying slots anchored to the destroyed structure, applies one fall-damage hit, clears the tower slot assignment, and returns them to road-lane fallback behavior.
 
+Cursor Boost Foundation implemented:
+
+- Cursor boost profile data is generated as a Godot Resource.
+- The city scene applies a transient titan damage multiplier inside the cursor radius before combat damage resolves.
+- Radius visualization is present as a temporary debug circle.
+
 Remaining vertical-slice work:
 
 - Final UI/UX.
 - Real pixel art and animation.
 - Full balance pass for 2-3 hour first city pacing.
-- Cursor boost visualization and meta-upgrade table.
+- Cursor boost visual polish and meta-upgrade table.
 - More complete tower climbing animation, formation polish, collapse debris, and zone completion polish.

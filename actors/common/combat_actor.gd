@@ -10,6 +10,9 @@ signal defeated(actor: CombatActor)
 var stats: UnitStatsResource
 var damage_profile: DamageProfileResource
 var drop_table: DropTableResource
+# Transient modifier reset is owned by systems such as CursorBoostController,
+# because actor-local _process order would race combat resolution.
+var runtime_modifiers := UnitRuntimeModifiers.new()
 var target_x := 0.0
 var attack_cooldown := 0.0
 var assigned_position := Vector2.ZERO
@@ -51,6 +54,11 @@ func consume_attack_cooldown() -> void:
 	if stats == null:
 		return
 	attack_cooldown = 1.0 / maxf(stats.attack_rate, 0.01)
+
+func effective_damage() -> float:
+	if stats == null:
+		return 0.0
+	return runtime_modifiers.effective_damage(stats.damage)
 
 func _process(delta: float) -> void:
 	attack_cooldown = maxf(attack_cooldown - delta, 0.0)

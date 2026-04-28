@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="CursorBoostProfileResource" format=3]
+
+[ext_resource type="Script" path="res://content/player/cursor_boost_profile_resource.gd" id="1_x785a"]
+
+[resource]
+script = ExtResource("1_x785a")
+id = &"cursor_boost_default"
