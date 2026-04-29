@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://ui/upgrades/stat_upgrade_panel.gd" id="1_upgrades"]
-[ext_resource type="Texture2D" path="res://assets/ui/generated/v2/frames/panel_frame_plain_v2.png" id="2_frame"]
-[ext_resource type="Texture2D" path="res://assets/ui/generated/v2/decor/iron_crest_v2.png" id="3_crest"]
+[ext_resource type="Texture2D" path="res://assets/ui/generated/transparent/panels/right_upgrade_panel_frame_v1.png" id="2_frame"]
 
 [node name="StatUpgradePanel" type="Control"]
 custom_minimum_size = Vector2(320, 600)
@@ -16,32 +15,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_frame")
-patch_margin_left = 14
-patch_margin_top = 14
-patch_margin_right = 14
-patch_margin_bottom = 14
-
-[node name="HeaderOrnament" type="TextureRect" parent="Frame"]
-layout_mode = 1
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -36.0
-offset_top = 6.0
-offset_right = 36.0
-offset_bottom = 48.0
-texture = ExtResource("3_crest")
-expand_mode = 1
-stretch_mode = 5
+patch_margin_left = 58
+patch_margin_top = 72
+patch_margin_right = 58
+patch_margin_bottom = 72
 
 [node name="MarginContainer" type="MarginContainer" parent="Frame"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 18.0
-offset_top = 42.0
-offset_right = -18.0
-offset_bottom = -16.0
+offset_left = 24.0
+offset_top = 34.0
+offset_right = -24.0
+offset_bottom = -30.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -60,3 +47,4 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 8
+

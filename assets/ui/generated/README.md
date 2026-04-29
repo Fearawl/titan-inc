@@ -21,9 +21,6 @@ These files are intentionally replaceable. UI scenes should reference stable ass
 - `icons/upgrades/`: damage, attack speed, movement speed, destruction radius.
 - `portraits/titans/`: small, runner, basic, armored, colossal titan portraits.
 - `transparent/`: transparent-background variants of the same sheets and crops for HUD assembly and future slicing.
-- `v2/frames/`: simplified 9-slice-safe panel and row frames without center decorations.
-- `v2/decor/`: separated decorative ornaments that can be placed as independent `TextureRect` nodes.
-- `v2/icons/` and `v2/portraits/`: reduced 1:1 UI-size icons and portraits for a more consistent pixel scale.
 
 ## Notes
 
@@ -31,4 +28,3 @@ These files are intentionally replaceable. UI scenes should reference stable ass
 - Icon and portrait crops are ready as visual placeholders for HUD cards.
 - The source sheets are kept so later slicing can be adjusted without regenerating the whole art direction.
 - Prefer transparent variants for actual UI scenes. Keep opaque originals as visual sources and fallback references.
-- Prefer `v2` assets for HUD implementation. They address the first UI review pass: consistent pixel scale, lighter frames, and separate decoration instead of stretched center ornaments.

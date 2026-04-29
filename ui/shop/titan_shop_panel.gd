@@ -2,18 +2,18 @@ extends Control
 class_name TitanShopPanel
 
 const PORTRAITS := {
-	&"small_titan": "res://assets/ui/generated/v2/portraits/titans/small_titan_portrait_v2.png",
-	&"runner_titan": "res://assets/ui/generated/v2/portraits/titans/runner_titan_portrait_v2.png",
-	&"basic_titan": "res://assets/ui/generated/v2/portraits/titans/basic_titan_portrait_v2.png",
-	&"armored_titan": "res://assets/ui/generated/v2/portraits/titans/armored_titan_portrait_v2.png",
-	&"colossal_titan": "res://assets/ui/generated/v2/portraits/titans/colossal_titan_portrait_v2.png",
+	&"small_titan": "res://assets/ui/generated/transparent/portraits/titans/small_titan_portrait_v1.png",
+	&"runner_titan": "res://assets/ui/generated/transparent/portraits/titans/runner_titan_portrait_v1.png",
+	&"basic_titan": "res://assets/ui/generated/transparent/portraits/titans/basic_titan_portrait_v1.png",
+	&"armored_titan": "res://assets/ui/generated/transparent/portraits/titans/armored_titan_portrait_v1.png",
+	&"colossal_titan": "res://assets/ui/generated/transparent/portraits/titans/colossal_titan_portrait_v1.png",
 }
 
 const BUTTON_STYLES := {
-	"normal": "res://assets/ui/generated/v2/frames/row_button_normal_v2.png",
-	"hover": "res://assets/ui/generated/v2/frames/row_button_hover_v2.png",
-	"pressed": "res://assets/ui/generated/v2/frames/row_button_pressed_v2.png",
-	"disabled": "res://assets/ui/generated/v2/frames/row_button_disabled_v2.png",
+	"normal": "res://assets/ui/generated/transparent/buttons/button_normal_v1.png",
+	"hover": "res://assets/ui/generated/transparent/buttons/button_hover_v1.png",
+	"pressed": "res://assets/ui/generated/transparent/buttons/button_pressed_v1.png",
+	"disabled": "res://assets/ui/generated/transparent/buttons/button_disabled_v1.png",
 }
 
 @onready var list_root: VBoxContainer = $Frame/MarginContainer/VBoxContainer/List
@@ -67,7 +67,7 @@ func _build_rows() -> void:
 
 		var portrait := TextureRect.new()
 		portrait.texture = load(str(PORTRAITS[titan_id]))
-		portrait.custom_minimum_size = Vector2(56.0, 56.0)
+		portrait.custom_minimum_size = Vector2(54.0, 54.0)
 		portrait.expand_mode = 1
 		portrait.stretch_mode = 5
 		row.add_child(portrait)
@@ -112,10 +112,10 @@ func _create_row_button(titan_id: StringName) -> Button:
 func _make_button_style(texture_path: String) -> StyleBoxTexture:
 	var style := StyleBoxTexture.new()
 	style.texture = load(texture_path)
-	style.texture_margin_left = 12.0
-	style.texture_margin_top = 12.0
-	style.texture_margin_right = 12.0
-	style.texture_margin_bottom = 12.0
+	style.texture_margin_left = 28.0
+	style.texture_margin_top = 28.0
+	style.texture_margin_right = 28.0
+	style.texture_margin_bottom = 28.0
 	style.content_margin_left = 10.0
 	style.content_margin_top = 8.0
 	style.content_margin_right = 10.0
@@ -151,3 +151,4 @@ func _resolve_catalog() -> ContentCatalog:
 	if scene == null:
 		return null
 	return scene.get_node_or_null("ContentCatalog") as ContentCatalog
+

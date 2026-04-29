@@ -2,10 +2,10 @@ extends Control
 class_name ResourceBar
 
 const RESOURCE_ICONS := {
-	&"meat": "res://assets/ui/generated/v2/icons/resources/meat_icon_v2.png",
-	&"stone": "res://assets/ui/generated/v2/icons/resources/stone_icon_v2.png",
-	&"metal": "res://assets/ui/generated/v2/icons/resources/metal_icon_v2.png",
-	&"hero_heart": "res://assets/ui/generated/v2/icons/resources/hero_heart_icon_v2.png",
+	&"meat": "res://assets/ui/generated/transparent/icons/resources/meat_icon_v1.png",
+	&"stone": "res://assets/ui/generated/transparent/icons/resources/stone_icon_v1.png",
+	&"metal": "res://assets/ui/generated/transparent/icons/resources/metal_icon_v1.png",
+	&"hero_heart": "res://assets/ui/generated/transparent/icons/resources/hero_heart_icon_v1.png",
 }
 
 @onready var entries_root: HBoxContainer = $Frame/MarginContainer/HBoxContainer
@@ -34,7 +34,7 @@ func _build_entries() -> void:
 
 		var icon := TextureRect.new()
 		icon.texture = load(str(RESOURCE_ICONS[resource_id]))
-		icon.custom_minimum_size = Vector2(40.0, 40.0)
+		icon.custom_minimum_size = Vector2(34.0, 34.0)
 		icon.expand_mode = 1
 		icon.stretch_mode = 5
 		cell.add_child(icon)
@@ -51,3 +51,4 @@ func _refresh() -> void:
 		var label := _value_labels.get(resource_id) as Label
 		if label != null:
 			label.text = HudPurchaseHelpers.format_amount(GameState.get_currency(resource_id))
+
