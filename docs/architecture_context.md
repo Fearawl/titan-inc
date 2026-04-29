@@ -100,6 +100,21 @@ Current MVP limits:
 - UI still uses generated placeholder art, not final artist-made assets.
 - Shop and upgrade rows are created by component scripts inside dedicated UI scenes; row subscenes can be extracted later if the rows gain more behavior.
 
+## HUD Art Review Pass Status - 2026-04-29
+
+Implemented:
+
+- Added `assets/ui/generated/v2` as the first refinement pass after visual review.
+- V2 frames use plain, 9-slice-safe panel and row textures without center decorations.
+- Decorative iron crest art is separated into `v2/decor` and placed as independent UI nodes, not stretched inside frame textures.
+- V2 resource icons, upgrade icons, and titan portraits are reduced to their intended UI display sizes to keep pixel scale closer across HUD elements.
+- HUD scenes now use the V2 frame, icon, portrait, and separated-decor assets.
+
+Current MVP limits:
+
+- V2 assets are cleaner for UI assembly, but still generated placeholders.
+- Final pixel consistency should be reviewed in the actual Godot viewport because global window scaling and texture filtering affect perceived pixel size.
+
 Дата фиксации: 2026-04-27  
 Цель: быстрый вход нового исполнителя в проект
 

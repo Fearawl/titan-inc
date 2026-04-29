@@ -2,17 +2,17 @@ extends Control
 class_name StatUpgradePanel
 
 const ICONS := {
-	&"titan_damage_global": "res://assets/ui/generated/transparent/icons/upgrades/damage_icon_v1.png",
-	&"titan_attack_rate_global": "res://assets/ui/generated/transparent/icons/upgrades/attack_speed_icon_v1.png",
-	&"titan_move_speed_global": "res://assets/ui/generated/transparent/icons/upgrades/movement_speed_icon_v1.png",
-	&"titan_attack_radius_global": "res://assets/ui/generated/transparent/icons/upgrades/destruction_radius_icon_v1.png",
+	&"titan_damage_global": "res://assets/ui/generated/v2/icons/upgrades/damage_icon_v2.png",
+	&"titan_attack_rate_global": "res://assets/ui/generated/v2/icons/upgrades/attack_speed_icon_v2.png",
+	&"titan_move_speed_global": "res://assets/ui/generated/v2/icons/upgrades/movement_speed_icon_v2.png",
+	&"titan_attack_radius_global": "res://assets/ui/generated/v2/icons/upgrades/destruction_radius_icon_v2.png",
 }
 
 const BUTTON_STYLES := {
-	"normal": "res://assets/ui/generated/transparent/buttons/button_normal_v1.png",
-	"hover": "res://assets/ui/generated/transparent/buttons/button_hover_v1.png",
-	"pressed": "res://assets/ui/generated/transparent/buttons/button_pressed_v1.png",
-	"disabled": "res://assets/ui/generated/transparent/buttons/button_disabled_v1.png",
+	"normal": "res://assets/ui/generated/v2/frames/row_button_normal_v2.png",
+	"hover": "res://assets/ui/generated/v2/frames/row_button_hover_v2.png",
+	"pressed": "res://assets/ui/generated/v2/frames/row_button_pressed_v2.png",
+	"disabled": "res://assets/ui/generated/v2/frames/row_button_disabled_v2.png",
 }
 
 @onready var list_root: VBoxContainer = $Frame/MarginContainer/VBoxContainer/List
@@ -115,10 +115,10 @@ func _create_row_button(upgrade_id: StringName) -> Button:
 func _make_button_style(texture_path: String) -> StyleBoxTexture:
 	var style := StyleBoxTexture.new()
 	style.texture = load(texture_path)
-	style.texture_margin_left = 28.0
-	style.texture_margin_top = 28.0
-	style.texture_margin_right = 28.0
-	style.texture_margin_bottom = 28.0
+	style.texture_margin_left = 12.0
+	style.texture_margin_top = 12.0
+	style.texture_margin_right = 12.0
+	style.texture_margin_bottom = 12.0
 	style.content_margin_left = 10.0
 	style.content_margin_top = 8.0
 	style.content_margin_right = 10.0
@@ -160,4 +160,3 @@ func _resolve_registry() -> BattleRegistry:
 	if scene == null:
 		return null
 	return scene.get_node_or_null("BattleRegistry") as BattleRegistry
-
