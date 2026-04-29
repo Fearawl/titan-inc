@@ -69,6 +69,21 @@ Current MVP limits:
 - There is no final upgrade UI yet; debug HUD keys are temporary verification controls.
 - Upgrade balance is first-pass generated content and still needs a vertical-slice pacing pass.
 
+## UI Placeholder Art Pack Status - 2026-04-29
+
+Implemented:
+
+- Approved the first UI art direction as severe stone plus dark metal for early HUD readability.
+- Added generated source sheets under `assets/ui/generated/sheets` for panels/buttons, resources, upgrades, and titan portraits.
+- Added cropped placeholder PNG assets under `assets/ui/generated/panels`, `buttons`, `icons`, and `portraits`.
+- Added `assets/ui/generated/README.md` to mark the pack as generated placeholder art and describe replacement boundaries.
+
+Current MVP limits:
+
+- These assets are not final production art.
+- Panel crops still need Godot `NinePatchRect` slice-margin tuning during HUD implementation.
+- No HUD scenes consume these images yet; the next package should wire them into scene-based UI.
+
 Дата фиксации: 2026-04-27  
 Цель: быстрый вход нового исполнителя в проект
 
