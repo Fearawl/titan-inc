@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3]
+[gd_scene load_steps=24 format=3]
 
 [ext_resource type="Script" path="res://world/city/city_scene.gd" id="1_city"]
 [ext_resource type="PackedScene" path="res://structures/destructible/destructible_structure.tscn" id="2_structure"]
@@ -13,7 +13,7 @@
 [ext_resource type="Script" path="res://systems/repair/repair_coordinator.gd" id="10_repair"]
 [ext_resource type="PackedScene" path="res://actors/repair_worker/repair_worker.tscn" id="11_worker"]
 [ext_resource type="Script" path="res://systems/camera/horizontal_camera_controller.gd" id="12_camera"]
-[ext_resource type="PackedScene" path="res://ui/debug/debug_hud.tscn" id="13_hud"]
+[ext_resource type="PackedScene" path="res://ui/hud/main_hud.tscn" id="13_hud"]
 [ext_resource type="Script" path="res://world/battlefield/battle_lane.gd" id="14_battle_lane"]
 [ext_resource type="Script" path="res://world/battlefield/road_lane.gd" id="15_road_lane"]
 [ext_resource type="Script" path="res://systems/defense/defense_slot_coordinator.gd" id="16_defense_slots"]
@@ -22,6 +22,7 @@
 [ext_resource type="Script" path="res://systems/feedback/feedback_coordinator.gd" id="19_feedback"]
 [ext_resource type="PackedScene" path="res://vfx/damage_numbers/damage_popup.tscn" id="20_damage_popup"]
 [ext_resource type="PackedScene" path="res://vfx/resource_flyouts/resource_flyout.tscn" id="21_resource_flyout"]
+[ext_resource type="Script" path="res://ui/debug/debug_hotkeys.gd" id="22_debug_hotkeys"]
 
 [node name="CityScene" type="Node2D"]
 script = ExtResource("1_city")
@@ -107,4 +108,11 @@ script = ExtResource("12_camera")
 min_x = 640.0
 max_x = 1900.0
 
-[node name="DebugHud" parent="." instance=ExtResource("13_hud")]
+[node name="MainHud" parent="." instance=ExtResource("13_hud")]
+catalog_path = NodePath("../ContentCatalog")
+registry_path = NodePath("../BattleRegistry")
+
+[node name="DebugHotkeys" type="Node" parent="."]
+script = ExtResource("22_debug_hotkeys")
+catalog_path = NodePath("../ContentCatalog")
+registry_path = NodePath("../BattleRegistry")

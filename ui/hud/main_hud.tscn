@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://ui/hud/main_hud.gd" id="1_main_hud"]
+[ext_resource type="PackedScene" path="res://ui/hud/resource_bar.tscn" id="2_resource_bar"]
+[ext_resource type="PackedScene" path="res://ui/shop/titan_shop_panel.tscn" id="3_titan_shop"]
+[ext_resource type="PackedScene" path="res://ui/upgrades/stat_upgrade_panel.tscn" id="4_upgrades"]
+
+[node name="MainHud" type="CanvasLayer"]
+layer = 50
+script = ExtResource("1_main_hud")
+
+[node name="Root" type="Control" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ResourceBar" parent="Root" instance=ExtResource("2_resource_bar")]
+layout_mode = 1
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 612.0
+offset_bottom = 90.0
+
+[node name="TitanShopPanel" parent="Root" instance=ExtResource("3_titan_shop")]
+layout_mode = 1
+offset_left = 12.0
+offset_top = 104.0
+offset_right = 312.0
+offset_bottom = 704.0
+
+[node name="StatUpgradePanel" parent="Root" instance=ExtResource("4_upgrades")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -332.0
+offset_top = 104.0
+offset_right = -12.0
+offset_bottom = 704.0
+grow_horizontal = 0
+

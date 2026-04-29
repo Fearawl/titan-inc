@@ -76,13 +76,29 @@ Implemented:
 - Approved the first UI art direction as severe stone plus dark metal for early HUD readability.
 - Added generated source sheets under `assets/ui/generated/sheets` for panels/buttons, resources, upgrades, and titan portraits.
 - Added cropped placeholder PNG assets under `assets/ui/generated/panels`, `buttons`, `icons`, and `portraits`.
+- Added transparent-background variants under `assets/ui/generated/transparent` for UI assembly and future slicing.
 - Added `assets/ui/generated/README.md` to mark the pack as generated placeholder art and describe replacement boundaries.
 
 Current MVP limits:
 
 - These assets are not final production art.
 - Panel crops still need Godot `NinePatchRect` slice-margin tuning during HUD implementation.
-- No HUD scenes consume these images yet; the next package should wire them into scene-based UI.
+
+## HUD Foundation Status - 2026-04-29
+
+Implemented:
+
+- Added scene-based HUD components under `ui/hud`, `ui/shop`, and `ui/upgrades`.
+- `MainHud` composes a top resource bar, left titan shop panel, and right stat-upgrade panel.
+- HUD components read `GameState` and `ContentCatalog`, then delegate purchases to `GameState`, `UpgradeService`, and `SaveService` through `HudPurchaseHelpers`.
+- Replaced the visual `DebugHud` instance in `world/city/city_scene.tscn` with `MainHud`.
+- Moved temporary keyboard controls into non-visual `DebugHotkeys`, preserving Enter, 1-9, F5, and F9 prototype controls.
+
+Current MVP limits:
+
+- HUD layout is a first assembly pass and still needs visual tuning in the running editor/game viewport.
+- UI still uses generated placeholder art, not final artist-made assets.
+- Shop and upgrade rows are created by component scripts inside dedicated UI scenes; row subscenes can be extracted later if the rows gain more behavior.
 
 Дата фиксации: 2026-04-27  
 Цель: быстрый вход нового исполнителя в проект

@@ -20,10 +20,11 @@ These files are intentionally replaceable. UI scenes should reference stable ass
 - `icons/resources/`: meat, stone, metal, hero heart.
 - `icons/upgrades/`: damage, attack speed, movement speed, destruction radius.
 - `portraits/titans/`: small, runner, basic, armored, colossal titan portraits.
+- `transparent/`: transparent-background variants of the same sheets and crops for HUD assembly and future slicing.
 
 ## Notes
 
 - Panel crops are first-pass candidates for `NinePatchRect` setup and may need manual slice-margin tuning in Godot.
 - Icon and portrait crops are ready as visual placeholders for HUD cards.
 - The source sheets are kept so later slicing can be adjusted without regenerating the whole art direction.
-
+- Prefer transparent variants for actual UI scenes. Keep opaque originals as visual sources and fallback references.
