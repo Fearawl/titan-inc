@@ -8,11 +8,15 @@ var assigned_slot_id: StringName
 var assigned_slot_position := Vector2.ZERO
 var range_multiplier := 1.0
 var leash_radius := 220.0
+var vision_radius := 260.0
+var rear_guard_radius := 360.0
 var current_target: TitanUnit
 var projectile_root: Node2D
 var arrow_scene: PackedScene
 
 const DEFAULT_LEASH_RADIUS := 220.0
+const DEFAULT_VISION_RADIUS := 260.0
+const DEFAULT_REAR_GUARD_RADIUS := 360.0
 
 func configure(owner_unit: DefenderUnit, battle_registry: BattleRegistry, lane: RoadLane, slot_payload: Dictionary) -> void:
 	unit = owner_unit
@@ -30,6 +34,10 @@ func configure(owner_unit: DefenderUnit, battle_registry: BattleRegistry, lane: 
 		range_multiplier = float(slot_payload["range_multiplier"])
 	if slot_payload.has("leash_radius"):
 		leash_radius = float(slot_payload["leash_radius"])
+	if slot_payload.has("vision_radius"):
+		vision_radius = float(slot_payload["vision_radius"])
+	if slot_payload.has("rear_guard_radius"):
+		rear_guard_radius = float(slot_payload["rear_guard_radius"])
 	if not has_slot_position and assigned_slot_position == Vector2.ZERO and unit != null:
 		assigned_slot_position = unit.assigned_position
 
@@ -41,6 +49,8 @@ func clear_slot_assignment() -> void:
 	assigned_slot_id = &""
 	range_multiplier = 1.0
 	leash_radius = DEFAULT_LEASH_RADIUS
+	vision_radius = DEFAULT_VISION_RADIUS
+	rear_guard_radius = DEFAULT_REAR_GUARD_RADIUS
 	current_target = null
 	var fallback_position := unit.global_position if unit != null else Vector2.ZERO
 	# MVP fallback: fallen tower defenders rejoin ground behavior on the road lane.
@@ -74,16 +84,16 @@ func _behavior_kind() -> int:
 
 func _vision_range() -> float:
 	if unit != null and unit.defender_type != null and unit.defender_type.behavior_profile != null:
-		return unit.defender_type.behavior_profile.vision_range
-	return 160.0
+		return maxf(unit.defender_type.behavior_profile.vision_range, vision_radius)
+	return vision_radius
 
 func _tick_melee_defender(delta: float) -> void:
 	if current_target != null and not _is_valid_titan(current_target):
 		current_target = null
-	if current_target != null and assigned_slot_position.distance_to(current_target.global_position) > leash_radius:
+	if current_target != null and not _target_still_allowed(current_target):
 		current_target = null
 	if current_target == null:
-		current_target = _nearest_titan_in_vision_and_leash()
+		current_target = _nearest_titan_threatening_slot()
 	if current_target == null:
 		_move_to_slot(delta)
 		return
@@ -118,23 +128,39 @@ func _fire_arrow(target: TitanUnit) -> bool:
 	return true
 
 func _nearest_titan_in_vision_and_leash() -> TitanUnit:
+	return _nearest_titan_threatening_slot()
+
+func _nearest_titan_threatening_slot() -> TitanUnit:
 	var nearest: TitanUnit = null
 	var nearest_distance := INF
-	var vision_range := maxf(_vision_range(), 0.0)
-	var clamped_leash := maxf(leash_radius, 0.0)
 	for titan in registry.alive_titans():
 		var typed := titan as TitanUnit
 		if not _is_valid_titan(typed):
 			continue
-		if unit.global_position.distance_to(typed.global_position) > vision_range:
-			continue
-		if assigned_slot_position.distance_to(typed.global_position) > clamped_leash:
+		if not _is_titan_visible_or_rear_threat(typed):
 			continue
 		var distance := unit.global_position.distance_to(typed.global_position)
 		if distance < nearest_distance:
 			nearest = typed
 			nearest_distance = distance
 	return nearest
+
+func _target_still_allowed(titan: TitanUnit) -> bool:
+	if not _is_valid_titan(titan):
+		return false
+	var distance_to_slot := assigned_slot_position.distance_to(titan.global_position)
+	if _is_titan_behind_slot(titan) and distance_to_slot <= maxf(rear_guard_radius, 0.0):
+		return true
+	return distance_to_slot <= maxf(leash_radius, 0.0)
+
+func _is_titan_visible_or_rear_threat(titan: TitanUnit) -> bool:
+	if unit.global_position.distance_to(titan.global_position) <= maxf(_vision_range(), 0.0):
+		return true
+	var distance_to_slot := assigned_slot_position.distance_to(titan.global_position)
+	return _is_titan_behind_slot(titan) and distance_to_slot <= maxf(rear_guard_radius, 0.0)
+
+func _is_titan_behind_slot(titan: TitanUnit) -> bool:
+	return titan.global_position.x < assigned_slot_position.x
 
 func _nearest_titan_in_attack_range() -> TitanUnit:
 	var nearest: TitanUnit = null

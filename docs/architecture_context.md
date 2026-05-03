@@ -100,6 +100,24 @@ Current MVP limits:
 - UI still uses generated placeholder art, not final artist-made assets.
 - Shop and upgrade rows are created by component scripts inside dedicated UI scenes; row subscenes can be extracted later if the rows gain more behavior.
 
+## City Layout Authoring and Interception AI Status - 2026-05-03
+
+Implemented:
+
+- `world/layout/fantasy_city_layout.tscn` is the first scene-authored layout for the fantasy vertical slice. It contains editable marker nodes for structures, titan/defender/repair spawn points, defense points, `BattleLane`, and `RoadLane`.
+- `CityScene` now reads the layout scene at startup and uses it to configure lanes, spawn origins, defense slots, and destructible structure placement. Gameplay values remain in custom Godot `Resource` assets.
+- `StructureMarker.marker_id` becomes the stable runtime id for structure HP save/load. `DestructibleStructure` still falls back to old `structure_type.id` save keys for compatibility.
+- `DefensePointMarker` produces runtime `DefenseSlotResource` data, including `vision_radius` and `rear_guard_radius`.
+- Titan targeting now prefers blocking destructible structures ahead and checks structure bounds against the titan lane instead of only using structure center distance.
+- Defender melee behavior now uses authored vision and rear-guard radii so defenders can pursue titans that break past their assigned point.
+- A lightweight headless smoke test lives at `tests/test_city_layout_authoring.gd` for marker collection, defense slot conversion, and blocking-structure targeting.
+
+Current MVP limits:
+
+- This is not a custom editor plugin; markers are regular Godot scene nodes.
+- Full pathfinding, final tower climb animation, final art, and balance are still future work.
+- The runtime city still uses placeholder rectangular actors/structures for presentation.
+
 Дата фиксации: 2026-04-27  
 Цель: быстрый вход нового исполнителя в проект
 

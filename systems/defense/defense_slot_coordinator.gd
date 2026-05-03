@@ -13,15 +13,22 @@ var _defender_by_instance_id: Dictionary = {}
 @export var tower_fall_damage := 25.0
 
 func configure(slots: Array[DefenseSlotResource]) -> void:
-	_slots = slots.duplicate()
+	_slots.clear()
 	_slots_by_id.clear()
 	_slots_by_anchor_id.clear()
 	_occupancy_by_id.clear()
 	_defender_slot_by_instance_id.clear()
 	_defender_by_instance_id.clear()
-	for slot in _slots:
+	for slot in slots:
 		if slot == null:
 			continue
+		if slot.id == &"":
+			push_warning("Skipping defense slot without id.")
+			continue
+		if _slots_by_id.has(slot.id):
+			push_warning("Skipping duplicate defense slot id '%s'." % slot.id)
+			continue
+		_slots.append(slot)
 		_slots_by_id[slot.id] = slot
 		_occupancy_by_id[slot.id] = 0
 		if slot.anchor_structure_id != &"":
@@ -52,7 +59,8 @@ func release_defender(defender: DefenderUnit) -> void:
 func handle_structure_destroyed(structure: DestructibleStructure) -> void:
 	if structure == null or structure.structure_type == null:
 		return
-	release_defenders_for_structure(structure.structure_type.id)
+	var anchor_id := structure.runtime_id if structure.runtime_id != &"" else structure.structure_type.id
+	release_defenders_for_structure(anchor_id)
 
 func release_defenders_for_structure(anchor_structure_id: StringName) -> void:
 	var slot_ids: Array = _slots_by_anchor_id.get(anchor_structure_id, [])
@@ -88,6 +96,14 @@ func slot_leash_radius(slot_id: StringName) -> float:
 	var slot := _slots_by_id.get(slot_id) as DefenseSlotResource
 	return slot.leash_radius if slot != null else 0.0
 
+func slot_vision_radius(slot_id: StringName) -> float:
+	var slot := _slots_by_id.get(slot_id) as DefenseSlotResource
+	return slot.vision_radius if slot != null else 0.0
+
+func slot_rear_guard_radius(slot_id: StringName) -> float:
+	var slot := _slots_by_id.get(slot_id) as DefenseSlotResource
+	return slot.rear_guard_radius if slot != null else 0.0
+
 func _can_claim(slot: DefenseSlotResource, defender_type: DefenderTypeResource) -> bool:
 	if int(_occupancy_by_id.get(slot.id, 0)) >= slot.capacity:
 		return false
@@ -106,6 +122,8 @@ func _slot_payload(slot: DefenseSlotResource) -> Dictionary:
 		"position": slot.position,
 		"range_multiplier": slot.range_multiplier,
 		"leash_radius": slot.leash_radius,
+		"vision_radius": slot.vision_radius,
+		"rear_guard_radius": slot.rear_guard_radius,
 	}
 
 func _track_defender(defender: DefenderUnit, slot_id: StringName) -> void:

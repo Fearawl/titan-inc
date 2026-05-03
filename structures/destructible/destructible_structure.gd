@@ -5,6 +5,8 @@ signal destroyed(structure: DestructibleStructure)
 
 var structure_type: StructureTypeResource
 var suppress_state_write := false
+var runtime_id: StringName
+var _configured_size := Vector2.ZERO
 
 @onready var damageable: Damageable = $Damageable
 @onready var body: ColorRect = $Body
@@ -16,18 +18,23 @@ func _ready() -> void:
 	damageable.died.connect(_on_died)
 	_on_hp_changed(damageable.current_hp, damageable.max_hp)
 
-func configure_structure(type: StructureTypeResource) -> void:
+func configure_structure(type: StructureTypeResource, position_override: Variant = null, runtime_id_override: StringName = &"", size_override := Vector2.ZERO) -> void:
 	structure_type = type
-	global_position = type.position
+	runtime_id = runtime_id_override if runtime_id_override != &"" else type.id
+	global_position = position_override if position_override is Vector2 else type.position
 	_ensure_nodes()
 	_apply_active_state()
-	body.size = type.size
-	body.position = -type.size * 0.5
+	_configured_size = size_override if size_override != Vector2.ZERO else type.size
+	body.size = _configured_size
+	body.position = -_configured_size * 0.5
 	suppress_state_write = true
 	damageable.configure(type.max_hp)
 	var game_state: Variant = _game_state()
-	if game_state != null and game_state.structure_hp.has(type.id):
-		damageable.set_current_hp(float(game_state.structure_hp[type.id]))
+	if game_state != null:
+		if game_state.structure_hp.has(_state_key()):
+			damageable.set_current_hp(float(game_state.structure_hp[_state_key()]))
+		elif game_state.structure_hp.has(type.id):
+			damageable.set_current_hp(float(game_state.structure_hp[type.id]))
 	if damageable.current_hp <= 0.0:
 		_apply_destroyed_state()
 	suppress_state_write = false
@@ -42,6 +49,15 @@ func repair(amount: float) -> void:
 
 func is_destroyed() -> bool:
 	return damageable.dead
+
+func current_size() -> Vector2:
+	if _configured_size != Vector2.ZERO:
+		return _configured_size
+	if body != null and body.size != Vector2.ZERO:
+		return body.size
+	if structure_type != null:
+		return structure_type.size
+	return Vector2.ZERO
 
 func restore_saved_hp(value: float) -> void:
 	_ensure_nodes()
@@ -61,21 +77,21 @@ func _on_hp_changed(current_hp: float, new_max_hp: float) -> void:
 		hp_bar.value = current_hp
 	var game_state: Variant = _game_state()
 	if not suppress_state_write and structure_type != null and game_state != null:
-		game_state.structure_hp[structure_type.id] = current_hp
+		game_state.structure_hp[_state_key()] = current_hp
 
 func _on_died(_source_id: StringName) -> void:
 	_apply_destroyed_state()
 	var game_state: Variant = _game_state()
 	if structure_type != null:
 		if game_state != null:
-			game_state.structure_hp[structure_type.id] = 0.0
+			game_state.structure_hp[_state_key()] = 0.0
 		if structure_type.drop_table != null:
 			var economy_service: Variant = load("res://core/economy/economy_service.gd")
 			if economy_service != null:
 				economy_service.grant(structure_type.drop_table.roll_drops(), global_position)
 		var signal_bus: Variant = _signal_bus()
 		if signal_bus != null:
-			signal_bus.structure_destroyed.emit(structure_type.id, global_position)
+			signal_bus.structure_destroyed.emit(_state_key(), global_position)
 	destroyed.emit(self)
 
 func _apply_destroyed_state() -> void:
@@ -96,8 +112,19 @@ func _ensure_nodes() -> void:
 	if hp_bar == null:
 		hp_bar = get_node_or_null("HpBar") as ProgressBar
 
+func _state_key() -> StringName:
+	if runtime_id != &"":
+		return runtime_id
+	if structure_type != null:
+		return structure_type.id
+	return StringName(name)
+
 func _game_state() -> Variant:
+	if not is_inside_tree():
+		return null
 	return get_node_or_null("/root/GameState")
 
 func _signal_bus() -> Variant:
+	if not is_inside_tree():
+		return null
 	return get_node_or_null("/root/SignalBus")

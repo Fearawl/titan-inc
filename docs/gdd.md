@@ -199,3 +199,10 @@ Prestige открывается после первого убийства ге�
 - Все эпохи городов.
 - Headless/autotests для core logic.
 - C#.
+
+## 15. Implementation Notes - 2026-05-03
+
+- The first city layout is authored through `world/layout/fantasy_city_layout.tscn`. Designers can move regular Godot marker nodes for structures, spawn points, lanes, and defended points directly in the 2D editor.
+- Type values and balance remain in Godot `Resource` assets. The layout scene stores placement, not combat formulas.
+- Titans now stop at blocking destructible structures whose bounds intersect their lane and attack them.
+- Defenders use authored vision and rear-guard radii, so they react sooner and pursue titans that pass behind an assigned defense point.

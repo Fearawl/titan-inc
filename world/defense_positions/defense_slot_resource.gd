@@ -15,5 +15,7 @@ enum SlotType {
 @export var position := Vector2.ZERO
 @export var range_multiplier := 1.0
 @export var leash_radius := 220.0
+@export var vision_radius := 260.0
+@export var rear_guard_radius := 360.0
 @export var allowed_defender_tags: Array[StringName] = []
 @export var anchor_structure_id: StringName

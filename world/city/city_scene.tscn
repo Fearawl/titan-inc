@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3]
+[gd_scene load_steps=25 format=3]
 
 [ext_resource type="Script" path="res://world/city/city_scene.gd" id="1_city"]
 [ext_resource type="PackedScene" path="res://structures/destructible/destructible_structure.tscn" id="2_structure"]
@@ -23,10 +23,12 @@
 [ext_resource type="PackedScene" path="res://vfx/damage_numbers/damage_popup.tscn" id="20_damage_popup"]
 [ext_resource type="PackedScene" path="res://vfx/resource_flyouts/resource_flyout.tscn" id="21_resource_flyout"]
 [ext_resource type="Script" path="res://ui/debug/debug_hotkeys.gd" id="22_debug_hotkeys"]
+[ext_resource type="PackedScene" path="res://world/layout/fantasy_city_layout.tscn" id="23_layout"]
 
 [node name="CityScene" type="Node2D"]
 script = ExtResource("1_city")
 destructible_scene = ExtResource("2_structure")
+layout_path = NodePath("FantasyCityLayout")
 
 [node name="ContentCatalog" type="Node" parent="."]
 script = ExtResource("3_catalog")
@@ -66,6 +68,8 @@ script = ExtResource("15_road_lane")
 road_y = 420.0
 min_x = 0.0
 max_x = 2300.0
+
+[node name="FantasyCityLayout" parent="." instance=ExtResource("23_layout")]
 
 [node name="DefenseSlotCoordinator" type="Node" parent="."]
 script = ExtResource("16_defense_slots")

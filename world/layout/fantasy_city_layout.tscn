@@ -1,0 +1,197 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://world/layout/city_layout.gd" id="1_layout"]
+[ext_resource type="Script" path="res://world/battlefield/battle_lane.gd" id="2_battle_lane"]
+[ext_resource type="Script" path="res://world/battlefield/road_lane.gd" id="3_road_lane"]
+[ext_resource type="Script" path="res://world/layout/structure_marker.gd" id="4_structure_marker"]
+[ext_resource type="Script" path="res://world/layout/spawn_point_marker.gd" id="5_spawn_marker"]
+[ext_resource type="Script" path="res://world/layout/defense_point_marker.gd" id="6_defense_marker"]
+[ext_resource type="Resource" path="res://content/structures/suburb_house.tres" id="7_suburb_house"]
+[ext_resource type="Resource" path="res://content/structures/wooden_fence.tres" id="8_wooden_fence"]
+[ext_resource type="Resource" path="res://content/structures/outer_tower_left.tres" id="9_outer_tower_left"]
+[ext_resource type="Resource" path="res://content/structures/outer_tower_right.tres" id="10_outer_tower_right"]
+[ext_resource type="Resource" path="res://content/structures/wall_tower_left.tres" id="11_wall_tower_left"]
+[ext_resource type="Resource" path="res://content/structures/wall_gate.tres" id="12_wall_gate"]
+[ext_resource type="Resource" path="res://content/structures/wall_tower_right.tres" id="13_wall_tower_right"]
+
+[node name="FantasyCityLayout" type="Node2D"]
+script = ExtResource("1_layout")
+battle_lane_path = NodePath("BattleLane")
+road_lane_path = NodePath("RoadLane")
+
+[node name="BattleLane" type="Node2D" parent="."]
+script = ExtResource("2_battle_lane")
+lane_rect = Rect2(0, 230, 2300, 230)
+titan_spawn_x = 80.0
+titan_spawn_x_variance = 30.0
+debug_visible = true
+
+[node name="RoadLane" type="Node2D" parent="."]
+script = ExtResource("3_road_lane")
+road_y = 420.0
+min_x = 0.0
+max_x = 2300.0
+
+[node name="Structures" type="Node2D" parent="."]
+
+[node name="SuburbHouse" type="Marker2D" parent="Structures"]
+position = Vector2(450, 390)
+script = ExtResource("4_structure_marker")
+marker_id = &"suburb_house"
+structure_type = ExtResource("7_suburb_house")
+
+[node name="WoodenFence" type="Marker2D" parent="Structures"]
+position = Vector2(650, 420)
+script = ExtResource("4_structure_marker")
+marker_id = &"wooden_fence"
+structure_type = ExtResource("8_wooden_fence")
+
+[node name="OuterTowerLeft" type="Marker2D" parent="Structures"]
+position = Vector2(1200, 310)
+script = ExtResource("4_structure_marker")
+marker_id = &"outer_tower_left"
+structure_type = ExtResource("9_outer_tower_left")
+
+[node name="OuterTowerRight" type="Marker2D" parent="Structures"]
+position = Vector2(1200, 500)
+script = ExtResource("4_structure_marker")
+marker_id = &"outer_tower_right"
+structure_type = ExtResource("10_outer_tower_right")
+
+[node name="WallTowerLeft" type="Marker2D" parent="Structures"]
+position = Vector2(1740, 300)
+script = ExtResource("4_structure_marker")
+marker_id = &"wall_tower_left"
+structure_type = ExtResource("11_wall_tower_left")
+
+[node name="WallGate" type="Marker2D" parent="Structures"]
+position = Vector2(1850, 405)
+script = ExtResource("4_structure_marker")
+marker_id = &"wall_gate"
+structure_type = ExtResource("12_wall_gate")
+
+[node name="WallTowerRight" type="Marker2D" parent="Structures"]
+position = Vector2(1740, 510)
+script = ExtResource("4_structure_marker")
+marker_id = &"wall_tower_right"
+structure_type = ExtResource("13_wall_tower_right")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="TitanSpawn" type="Marker2D" parent="Spawns"]
+position = Vector2(80, 420)
+script = ExtResource("5_spawn_marker")
+marker_id = &"titan_spawn"
+
+[node name="DefenderSpawn" type="Marker2D" parent="Spawns"]
+position = Vector2(1960, 430)
+script = ExtResource("5_spawn_marker")
+spawn_kind = 1
+marker_id = &"defender_spawn"
+debug_color = Color(0.85, 0.25, 0.25, 0.65)
+
+[node name="RepairSpawn" type="Marker2D" parent="Spawns"]
+position = Vector2(1980, 430)
+script = ExtResource("5_spawn_marker")
+spawn_kind = 2
+marker_id = &"repair_spawn"
+debug_color = Color(0.85, 0.75, 0.25, 0.65)
+
+[node name="DefensePoints" type="Node2D" parent="."]
+
+[node name="SuburbAmbushA" type="Marker2D" parent="DefensePoints"]
+position = Vector2(430, 420)
+script = ExtResource("6_defense_marker")
+slot_id = &"suburb_house_ambush_a"
+slot_type = 3
+capacity = 3
+leash_radius = 180.0
+vision_radius = 300.0
+rear_guard_radius = 360.0
+allowed_defender_tags = Array[StringName]([&"ground"])
+anchor_structure_marker_id = &"suburb_house"
+
+[node name="WoodenFenceMelee" type="Marker2D" parent="DefensePoints"]
+position = Vector2(610, 420)
+script = ExtResource("6_defense_marker")
+slot_id = &"wooden_fence_melee"
+capacity = 10
+leash_radius = 260.0
+vision_radius = 360.0
+rear_guard_radius = 500.0
+allowed_defender_tags = Array[StringName]([&"ground", &"gate_line"])
+anchor_structure_marker_id = &"wooden_fence"
+
+[node name="OuterTowerMelee" type="Marker2D" parent="DefensePoints"]
+position = Vector2(1135, 420)
+script = ExtResource("6_defense_marker")
+slot_id = &"outer_tower_melee"
+capacity = 10
+leash_radius = 300.0
+vision_radius = 420.0
+rear_guard_radius = 560.0
+allowed_defender_tags = Array[StringName]([&"ground", &"gate_line"])
+anchor_structure_marker_id = &"outer_tower_left"
+
+[node name="OuterTowerLeftGarrison" type="Marker2D" parent="DefensePoints"]
+position = Vector2(1200, 245)
+script = ExtResource("6_defense_marker")
+slot_id = &"outer_tower_left_garrison"
+slot_type = 2
+capacity = 10
+range_multiplier = 2.0
+leash_radius = 220.0
+vision_radius = 520.0
+rear_guard_radius = 620.0
+allowed_defender_tags = Array[StringName]([&"tower_top", &"wall_top"])
+anchor_structure_marker_id = &"outer_tower_left"
+
+[node name="OuterTowerRightGarrison" type="Marker2D" parent="DefensePoints"]
+position = Vector2(1200, 430)
+script = ExtResource("6_defense_marker")
+slot_id = &"outer_tower_right_garrison"
+slot_type = 2
+capacity = 10
+range_multiplier = 2.0
+leash_radius = 220.0
+vision_radius = 520.0
+rear_guard_radius = 620.0
+allowed_defender_tags = Array[StringName]([&"tower_top", &"wall_top"])
+anchor_structure_marker_id = &"outer_tower_right"
+
+[node name="WallGateMelee" type="Marker2D" parent="DefensePoints"]
+position = Vector2(1780, 420)
+script = ExtResource("6_defense_marker")
+slot_id = &"wall_gate_melee"
+capacity = 10
+leash_radius = 340.0
+vision_radius = 480.0
+rear_guard_radius = 680.0
+allowed_defender_tags = Array[StringName]([&"ground", &"gate_line"])
+anchor_structure_marker_id = &"wall_gate"
+
+[node name="WallTowerLeftGarrison" type="Marker2D" parent="DefensePoints"]
+position = Vector2(1740, 225)
+script = ExtResource("6_defense_marker")
+slot_id = &"wall_tower_left_garrison"
+slot_type = 2
+capacity = 10
+range_multiplier = 2.0
+leash_radius = 240.0
+vision_radius = 560.0
+rear_guard_radius = 720.0
+allowed_defender_tags = Array[StringName]([&"tower_top", &"wall_top"])
+anchor_structure_marker_id = &"wall_tower_left"
+
+[node name="WallTowerRightGarrison" type="Marker2D" parent="DefensePoints"]
+position = Vector2(1740, 435)
+script = ExtResource("6_defense_marker")
+slot_id = &"wall_tower_right_garrison"
+slot_type = 2
+capacity = 10
+range_multiplier = 2.0
+leash_radius = 240.0
+vision_radius = 560.0
+rear_guard_radius = 720.0
+allowed_defender_tags = Array[StringName]([&"tower_top", &"wall_top"])
+anchor_structure_marker_id = &"wall_tower_right"

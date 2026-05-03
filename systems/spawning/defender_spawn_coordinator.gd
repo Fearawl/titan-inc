@@ -13,16 +13,6 @@ class_name DefenderSpawnCoordinator
 @export var spawn_cooldown := 3.0
 
 const HERO_ID := &"first_hero"
-const DEFENSE_POSITIONS := [
-	Vector2(520.0, 430.0),
-	Vector2(700.0, 420.0),
-	Vector2(1200.0, 300.0),
-	Vector2(1200.0, 520.0),
-	Vector2(1740.0, 292.0),
-	Vector2(1850.0, 410.0),
-	Vector2(1740.0, 525.0),
-]
-
 var _cooldown := 0.0
 var _hero_spawned := false
 
@@ -69,7 +59,7 @@ func _spawn_defender(defender_type: DefenderTypeResource) -> void:
 	var slot_payload := {}
 	if defense_slot_coordinator != null:
 		slot_payload = defense_slot_coordinator.claim_slot(defender_type, unit)
-	var position: Vector2 = slot_payload["position"] if slot_payload.has("position") else DEFENSE_POSITIONS[randi() % DEFENSE_POSITIONS.size()]
+	var position: Vector2 = slot_payload["position"] if slot_payload.has("position") else spawn_origin
 	unit.global_position = road_lane.point_at_x(spawn_origin.x) if road_lane != null else spawn_origin
 	unit.configure_defender(defender_type, position)
 	unit.configure_behavior(registry, road_lane, slot_payload)

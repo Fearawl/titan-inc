@@ -22,7 +22,9 @@ func _resolve_titan_attacks() -> void:
 			var roll := titan.damage_profile.roll_damage(titan.effective_damage(), false)
 			defender.damageable.apply_damage(float(roll["amount"]), titan.actor_id, bool(roll["is_critical"]))
 			hit_anything = true
-		var target_structure := TargetingService.nearest_structure_in_front(titan, registry.alive_structures())
+		var target_structure := TargetingService.nearest_blocking_structure_in_front(titan, registry.alive_structures())
+		if target_structure == null:
+			target_structure = TargetingService.nearest_structure_in_front(titan, registry.alive_structures())
 		if target_structure != null and titan.global_position.distance_to(target_structure.global_position) <= titan.stats.attack_radius:
 			var roll := titan.damage_profile.roll_damage(titan.effective_damage(), true)
 			target_structure.apply_damage(float(roll["amount"]), titan.actor_id, bool(roll["is_critical"]))

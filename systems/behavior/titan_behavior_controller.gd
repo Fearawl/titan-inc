@@ -35,7 +35,7 @@ func _behavior_kind() -> int:
 	return unit.titan_type.behavior_profile.behavior_kind
 
 func _nearest_blocking_structure() -> DestructibleStructure:
-	return TargetingService.nearest_structure_in_front(unit, registry.alive_structures())
+	return TargetingService.nearest_blocking_structure_in_front(unit, registry.alive_structures())
 
 func _nearest_melee_defender() -> DefenderUnit:
 	var nearest: DefenderUnit = null
